@@ -16,37 +16,46 @@
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-    //You can change the content of this template
+//You can change the content of this template
 ?>
 <html lang="en">
-    <body>
-        <h3>{Title}</h3>
-        {Firstname} {Lastname} beantragt Urlaub. Hierzu die <a href="{BaseUrl}leaves/{LeaveId}">Details</a> :
-        <table border="0">
-            <tr>
-                <td>Von &nbsp;</td><td>{StartDate}&nbsp;({StartDateType})</td>
-            </tr>
-            <tr>
-                <td>Bis &nbsp;</td><td>{EndDate}&nbsp;({EndDateType})</td>
-            </tr>
-            <tr>
-                <td>Art &nbsp;</td><td>{Type}</td>
-            </tr>
-            <tr>
-                <td>Duration &nbsp;</td><td>{Duration}</td>
-            </tr>
-            <tr>
-                <td>Balance &nbsp;</td><td>{Balance}</td>
-            </tr>
-            <tr>
-                <td>Begründung &nbsp;</td><td>{Reason}</td>
-            </tr>
-            <tr>
-                <td><a href="{BaseUrl}requests/accept/{LeaveId}">Akzeptieren</a> &nbsp;</td><td><a href="{BaseUrl}requests/reject/{LeaveId}">Ablehnen</a></td>
-            </tr>
-        </table>
-<br />
-Über die <a href="{BaseUrl}requests/counters/{UserId}">Urlaubsstatistik</a> können Sie sich vor Beantwortung der Anfrage einen Überblick verschaffen.
+           <body>
+<h3> {Title}</h3>
+{Firstname} {Lastname} beantragt Urlaub. Hierzu die <a href="{BaseUrl}leaves/{LeaveId}">Details</a> :
+<table border="0">
+              <tr>
+              <td>Von &nbsp;
+</td><td> {StartDate}&nbsp;
+({StartDateType})</td>
+</tr>
+<tr>
+<td>Bis &nbsp;
+</td><td> {EndDate}&nbsp;
+({EndDateType})</td>
+</tr>
+<tr>
+<td>Art &nbsp;
+</td><td> {Type}</td>
+</tr>
+<tr>
+<td>Duration &nbsp;
+</td><td> {Duration}</td>
+</tr>
+<tr>
+<td>Balance &nbsp;
+</td><td> {Balance}</td>
+</tr>
+<tr>
+<td>Begründung &nbsp;
+</td><td> {Reason}</td>
+</tr>
+<tr>
+<td><a href="{BaseUrl}requests/accept/{LeaveId}">Akzeptieren</a> &nbsp;
+</td><td><a href="{BaseUrl}requests/reject/{LeaveId}">Ablehnen</a></td>
+                 </tr>
+                 </table>
+                 <br />
+                 Über die <a href="{BaseUrl}requests/counters/{UserId}">Urlaubsstatistik</a> können Sie sich vor Beantwortung der Anfrage einen Überblick verschaffen.
 
-    </body>
-</html>
+                                   </body>
+                                   </html>

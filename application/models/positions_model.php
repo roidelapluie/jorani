@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * This file is part of Jorani.
  *
  * Jorani is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -24,7 +24,7 @@ class Positions_model extends CI_Model {
      * Default constructor
      */
     public function __construct() {
-        
+
     }
 
     /**
@@ -41,7 +41,7 @@ class Positions_model extends CI_Model {
         $query = $this->db->get_where('positions', array('id' => $id));
         return $query->row_array();
     }
-    
+
     /**
      * Get the label of a given position id
      * @param type $id
@@ -55,7 +55,7 @@ class Positions_model extends CI_Model {
             return '';
         }
     }
-    
+
     /**
      * Insert a new position
      * Inserted data are coming from an HTML form
@@ -63,14 +63,14 @@ class Positions_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function set_positions() {
-        
+
         $data = array(
-            'name' => $this->input->post('name'),
-            'description' => $this->input->post('description')
-        );
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description')
+                );
         return $this->db->insert('positions', $data);
     }
-    
+
     /**
      * Delete a position from the database
      * Cascade update all users having this postion (filled with 0)
@@ -80,13 +80,13 @@ class Positions_model extends CI_Model {
     public function delete_position($id) {
         $delete = $this->db->delete('positions', array('id' => $id));
         $data = array(
-            'position' => 0
-        );
+                    'position' => 0
+                );
         $this->db->where('position', $id);
         $update = $this->db->update('users', $data);
         return $delete && $update;
     }
-    
+
     /**
      * Update a given position in the database. Update data are coming from an
      * HTML form
@@ -96,12 +96,11 @@ class Positions_model extends CI_Model {
      */
     public function update_positions($id) {
         $data = array(
-            'name' => $this->input->post('name'),
-            'description' => $this->input->post('description')
-        );
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description')
+                );
 
         $this->db->where('id', $id);
         return $this->db->update('positions', $data);
     }
 }
-	

@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -26,24 +26,24 @@
  */
 function setUserContext($controller)
 {
-        if (!$controller->session->userdata('logged_in')) {
-            //Test if the expired session was detected while responding to an Ajax request
-            if (filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
-                $controller->output->set_status_header('401');
-            } else {
-                $controller->session->set_userdata('last_page', current_url());
-                redirect('session/login');
-            }
+    if (!$controller->session->userdata('logged_in')) {
+        //Test if the expired session was detected while responding to an Ajax request
+        if (filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
+            $controller->output->set_status_header('401');
+        } else {
+            $controller->session->set_userdata('last_page', current_url());
+            redirect('session/login');
         }
-        $controller->fullname = $controller->session->userdata('firstname') . ' ' .
-                $controller->session->userdata('lastname');
-        $controller->is_manager = $controller->session->userdata('is_manager');
-        $controller->is_admin = $controller->session->userdata('is_admin');
-        $controller->is_hr = $controller->session->userdata('is_hr');
-        $controller->user_id = $controller->session->userdata('id');
-        $controller->manager = $controller->session->userdata('manager');
-        $controller->language = $controller->session->userdata('language');
-        $controller->language_code = $controller->session->userdata('language_code');
+    }
+    $controller->fullname = $controller->session->userdata('firstname') . ' ' .
+                            $controller->session->userdata('lastname');
+    $controller->is_manager = $controller->session->userdata('is_manager');
+    $controller->is_admin = $controller->session->userdata('is_admin');
+    $controller->is_hr = $controller->session->userdata('is_hr');
+    $controller->user_id = $controller->session->userdata('id');
+    $controller->manager = $controller->session->userdata('manager');
+    $controller->language = $controller->session->userdata('language');
+    $controller->language_code = $controller->session->userdata('language_code');
 }
 
 /**
@@ -87,7 +87,7 @@ function expires_now() {
  * @return string value where problematic characters have been removed
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function sanitize($value){
+function sanitize($value) {
     $value = trim($value);
     $value = str_replace('\\','',$value);
     $value = strtr($value,array_flip(get_html_translation_table(HTML_ENTITIES)));

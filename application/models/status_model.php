@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * This file is part of Jorani.
  *
  * Jorani is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -24,7 +24,7 @@ class Status_model extends CI_Model {
      * Default constructor
      */
     public function __construct() {
-        
+
     }
 
     /**
@@ -41,7 +41,7 @@ class Status_model extends CI_Model {
         $query = $this->db->get_where('status', array('id' => $id));
         return $query->row_array();
     }
-    
+
     /**
      * Get the label of a given status id
      * @param type $id
@@ -49,11 +49,16 @@ class Status_model extends CI_Model {
      */
     public function get_label($id) {
         switch ($id) {
-            case 1 : return 'Planned';
-            case 2 : return 'Requested';
-            case 3 : return 'Accepted';
-            case 4 : return 'Rejected';
-            default : return 'Unknown';
+        case 1 :
+            return 'Planned';
+        case 2 :
+            return 'Requested';
+        case 3 :
+            return 'Accepted';
+        case 4 :
+            return 'Rejected';
+        default :
+            return 'Unknown';
         }
     }
 }

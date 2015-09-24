@@ -35,7 +35,7 @@ $lang['calendar_collaborators_description'] = 'ការសុំបញ្ឈប
 $lang['calendar_department_title'] = 'កាលបរិច្ឆេទរបស់ក្រុមរួមការងារ';
 $lang['calendar_department_description'] = 'ប្រតិទិនសំរាប់បុគ្គលិកធ្វុើការងារក្នុងផ្នែករបស់ខ្ញុុំ';
 $lang['calendar_department_msg_error'] = 'វាមិនស្ថិតក្នុងផ្នែកណាមួយទេ។សូមទំនាក់ទំនងទៅកាន់ផ្នែកHRឬប្រធានផ្នែកគ្រប់គ្រង';
-		
+
 $lang['calendar_organization_title'] = 'ប្រតិទិនរបស់អង្គការ';
 $lang['calendar_organization_description'] = 'ប្រតិទិនសកល';
 $lang['calendar_organization_field_select_entity'] = 'ជ្រើសរើសអង្គភាព';
@@ -73,7 +73,7 @@ $lang['calendar_friday_short'] = 'សុ';
 $lang['calendar_saturday_short'] = 'ស';
 $lang['calendar_sunday_short'] = 'អ';
 $lang['All days'] = 'All days';
-	
+
 $lang['January'] = 'ខែមករា';
 $lang['February'] = 'ខែកុម្ផ:';
 $lang['March'] = 'ខែមិនា';

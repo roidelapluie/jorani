@@ -2,8 +2,11 @@
 
 <p>Вы не можете совершать данные действия.</p>
 
-<?php if($this->session->flashdata('msg')){ ?>
-<p>  
-  <?php echo $this->session->flashdata('msg'); ?>
-</p>
-<?php } ?>
+<?php if($this->session->flashdata('msg')) {
+    ?>
+    <p>
+    <?php echo $this->session->flashdata('msg');
+    ?>
+    </p>
+    <?php
+} ?>

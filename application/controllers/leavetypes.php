@@ -18,12 +18,12 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 class LeaveTypes extends CI_Controller {
-    
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -52,7 +52,7 @@ class LeaveTypes extends CI_Controller {
         $this->load->view('leavetypes/index', $data);
         $this->load->view('templates/footer');
     }
-    
+
     /**
      * Display a form that allows adding a leave type
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -64,9 +64,9 @@ class LeaveTypes extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('form_validation');
         $data['title'] = lang('leavetypes_popup_create_title');
-        
-        $this->form_validation->set_rules('name', lang('leavetypes_popup_create_field_name'), 'required|xss_clean|strip_tags');        
-        
+
+        $this->form_validation->set_rules('name', lang('leavetypes_popup_create_field_name'), 'required|xss_clean|strip_tags');
+
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('leavetypes/create', $data);
         } else {
@@ -89,9 +89,9 @@ class LeaveTypes extends CI_Controller {
         $data['title'] = lang('leavetypes_popup_update_title');
         $data['id'] = $id;
         $data['type_name'] = $this->types_model->get_label($id);
-        
-        $this->form_validation->set_rules('name', lang('leavetypes_popup_update_field_name'), 'required|xss_clean|strip_tags');        
-        
+
+        $this->form_validation->set_rules('name', lang('leavetypes_popup_update_field_name'), 'required|xss_clean|strip_tags');
+
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('leavetypes/edit', $data);
         } else {
@@ -100,7 +100,7 @@ class LeaveTypes extends CI_Controller {
             redirect('leavetypes');
         }
     }
-    
+
     /**
      * Action : delete a leave type
      * @param int $id leave type identifier
@@ -148,7 +148,7 @@ class LeaveTypes extends CI_Controller {
         foreach(range('A', 'B') as $colD) {
             $sheet->getColumnDimension($colD)->setAutoSize(TRUE);
         }
-        
+
         $filename = 'leave_types.xls';
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . $filename . '"');

@@ -338,7 +338,7 @@ class MY_Email extends CI_Email {
     // Modified by Ivan Tcholakov, 16-JAN-2014.
     //public function attach($file, $disposition = '', $newname = NULL, $mime = '') {
     public function attach($file, $disposition = '', $newname = NULL, $mime = '', $embedded_image = false) {
-    //
+        //
 
         $file = (string) $file;
 
@@ -384,10 +384,10 @@ class MY_Email extends CI_Email {
                 fclose($fp);
 
                 $this->_attachments[] = array(
-                    'name' => array($file, $newname),
-                    'disposition' => $disposition,
-                    'type' => $mime,
-                );
+                                            'name' => array($file, $newname),
+                                            'disposition' => $disposition,
+                                            'type' => $mime,
+                                        );
 
                 $newname = $newname === NULL ? basename($file) : $newname;
                 $cid = $this->attachment_cid($file);
@@ -399,10 +399,10 @@ class MY_Email extends CI_Email {
                 $file_content =& $file;
 
                 $this->_attachments[] = array(
-                    'name' => array($newname, $newname),
-                    'disposition' => $disposition,
-                    'type' => $mime,
-                );
+                                            'name' => array($newname, $newname),
+                                            'disposition' => $disposition,
+                                            'type' => $mime,
+                                        );
 
                 $cid = $this->attachment_cid($newname);
             }
@@ -438,7 +438,8 @@ class MY_Email extends CI_Email {
                 }
             }
 
-        } elseif ($this->_is_ci_3) {
+        }
+        elseif ($this->_is_ci_3) {
 
             return parent::attachment_cid($filename);
         }
@@ -565,23 +566,23 @@ class MY_Email extends CI_Email {
                 // Refresh PHPMailer options.
 
                 $options = array(
-                    'charset' => $this->charset,
-                    'protocol' => $this->protocol,
-                    'mailpath' => $this->mailpath,
-                    'smtp_host' => $this->smtp_host,
-                    'smtp_user' => $this->smtp_user,
-                    'smtp_pass' => $this->smtp_pass,
-                    'smtp_port' => $this->smtp_port,
-                    'smtp_timeout' => $this->smtp_timeout,
-                    'smtp_crypto' => $this->smtp_crypto,
-                    'smtp_debug' => $this->smtp_debug_raw,
-                    'wordwrap' => $this->wordwrap,
-                    'wrapchars' => $this->wrapchars,
-                    'mailtype' => $this->mailtype,
-                    'priority' => $this->priority_raw,
-                    'encoding' => $this->_encoding_raw,
-                    '_smtp_auth' => $this->_smtp_auth,
-                );
+                               'charset' => $this->charset,
+                               'protocol' => $this->protocol,
+                               'mailpath' => $this->mailpath,
+                               'smtp_host' => $this->smtp_host,
+                               'smtp_user' => $this->smtp_user,
+                               'smtp_pass' => $this->smtp_pass,
+                               'smtp_port' => $this->smtp_port,
+                               'smtp_timeout' => $this->smtp_timeout,
+                               'smtp_crypto' => $this->smtp_crypto,
+                               'smtp_debug' => $this->smtp_debug_raw,
+                               'wordwrap' => $this->wordwrap,
+                               'wrapchars' => $this->wrapchars,
+                               'mailtype' => $this->mailtype,
+                               'priority' => $this->priority_raw,
+                               'encoding' => $this->_encoding_raw,
+                               '_smtp_auth' => $this->_smtp_auth,
+                           );
 
                 foreach ($options as $key => $value) {
                     $this->_set_config_option($key, $value);
@@ -604,17 +605,17 @@ class MY_Email extends CI_Email {
 
             switch ($this->protocol) {
 
-                case 'mail':
-                    $this->phpmailer->isMail();
-                    break;
+            case 'mail':
+                $this->phpmailer->isMail();
+                break;
 
-                case 'sendmail':
-                    $this->phpmailer->isSendmail();
-                    break;
+            case 'sendmail':
+                $this->phpmailer->isSendmail();
+                break;
 
-                case 'smtp':
-                    $this->phpmailer->isSMTP();
-                    break;
+            case 'smtp':
+                $this->phpmailer->isSMTP();
+                break;
             }
         }
 
@@ -710,7 +711,7 @@ class MY_Email extends CI_Email {
 
     public function set_priority($n = 3) {
 
-	$this->priority_raw = $n;
+        $this->priority_raw = $n;
 
         if ($this->mailer_engine == 'phpmailer') {
 
@@ -739,7 +740,8 @@ class MY_Email extends CI_Email {
 
             $this->phpmailer->Encoding = $encoding;
 
-        } elseif (!in_array($encoding, self::$encodings_ci)) {
+        }
+        elseif (!in_array($encoding, self::$encodings_ci)) {
 
             $encoding = '8bit';
         }
@@ -782,71 +784,71 @@ class MY_Email extends CI_Email {
     public function full_html($subject, $message) {
 
         $full_html =
-'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset='.strtolower($this->charset).'" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>'.htmlspecialchars($subject, ENT_QUOTES, $this->charset).'</title>
+            '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+            <html xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+            <meta http-equiv="Content-Type" content="text/html; charset='.strtolower($this->charset).'" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <title>'.htmlspecialchars($subject, ENT_QUOTES, $this->charset).'</title>
 
-    <style type="text/css">
+            <style type="text/css">
 
-        /* See http://htmlemailboilerplate.com/ */
+            /* See http://htmlemailboilerplate.com/ */
 
-        /* Based on The MailChimp Reset INLINE: Yes. */
-        /* Client-specific Styles */
-        #outlook a {padding:0;} /* Force Outlook to provide a "view in browser" menu link. */
-        body {
+            /* Based on The MailChimp Reset INLINE: Yes. */
+            /* Client-specific Styles */
+#outlook a {padding:0;} /* Force Outlook to provide a "view in browser" menu link. */
+            body {
             width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:40px;
             font-family: Arial, Verdana, Helvetica, sans-serif; font-size: 16px;
         }
-        /* End reset */
+            /* End reset */
 
-        /* Some sensible defaults for images
-        Bring inline: Yes. */
-        img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
-        a img {border:none;}
+            /* Some sensible defaults for images
+            Bring inline: Yes. */
+            img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
+            a img {border:none;}
 
-        /* Yahoo paragraph fix
-        Bring inline: Yes. */
-        p {margin: 1em 0;}
+            /* Yahoo paragraph fix
+            Bring inline: Yes. */
+            p {margin: 1em 0;}
 
-        /* Hotmail header color reset
-        Bring inline: Yes. */
-        h1, h2, h3, h4, h5, h6 {color: black !important;}
+            /* Hotmail header color reset
+            Bring inline: Yes. */
+            h1, h2, h3, h4, h5, h6 {color: black !important;}
 
-        h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: blue !important;}
+            h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: blue !important;}
 
-        h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
-        color: red !important; /* Preferably not the same color as the normal header link color.  There is limited support for psuedo classes in email clients, this was added just for good measure. */
+            h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
+            color: red !important; /* Preferably not the same color as the normal header link color.  There is limited support for psuedo classes in email clients, this was added just for good measure. */
         }
 
-        h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
-        color: purple !important; /* Preferably not the same color as the normal header link color. There is limited support for psuedo classes in email clients, this was added just for good measure. */
+            h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
+            color: purple !important; /* Preferably not the same color as the normal header link color. There is limited support for psuedo classes in email clients, this was added just for good measure. */
         }
 
-        /* Outlook 07, 10 Padding issue fix
-        Bring inline: No.*/
-        table td {border-collapse: collapse;}
+            /* Outlook 07, 10 Padding issue fix
+            Bring inline: No.*/
+            table td {border-collapse: collapse;}
 
-        /* Remove spacing around Outlook 07, 10 tables
-        Bring inline: Yes */
-        table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+            /* Remove spacing around Outlook 07, 10 tables
+            Bring inline: Yes */
+            table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
 
-        /* Styling your links has become much simpler with the new Yahoo.  In fact, it falls in line with the main credo of styling in email and make sure to bring your styles inline.  Your link colors will be uniform across clients when brought inline.
-        Bring inline: Yes. */
-        a {color: blue;}
+            /* Styling your links has become much simpler with the new Yahoo.  In fact, it falls in line with the main credo of styling in email and make sure to bring your styles inline.  Your link colors will be uniform across clients when brought inline.
+            Bring inline: Yes. */
+            a {color: blue;}
 
-    </style>
+            </style>
 
-</head>
+            </head>
 
-<body>
+            <body>
 
-'.$message.'
+            '.$message.'
 
-</body>
-</html>';
+            </body>
+            </html>';
 
         return $full_html;
     }
@@ -868,8 +870,8 @@ class MY_Email extends CI_Email {
         }
 
         return ($this->wordwrap)
-            ? $this->word_wrap($alt_message, 76)
-            : $alt_message;
+               ? $this->word_wrap($alt_message, 76)
+               : $alt_message;
     }
 
     protected function _plain_text($html) {
@@ -920,7 +922,8 @@ class MY_Email extends CI_Email {
 
             $this->$method($value);
 
-        } elseif (isset($this->$key)) {
+        }
+        elseif (isset($this->$key)) {
 
             $this->$key = $value;
 
@@ -933,17 +936,17 @@ class MY_Email extends CI_Email {
     protected function _copy_property_to_phpmailer($key) {
 
         static $properties = array(
-            'mailpath' => 'Sendmail',
-            'smtp_host' => 'Host',
-            'smtp_user' => 'Username',
-            'smtp_pass' => 'Password',
-            'smtp_port' => 'Port',
-            'smtp_timeout' => 'Timeout',
-            '_smtp_auth' => 'SMTPAuth',
-        );
+                                 'mailpath' => 'Sendmail',
+                                 'smtp_host' => 'Host',
+                                 'smtp_user' => 'Username',
+                                 'smtp_pass' => 'Password',
+                                 'smtp_port' => 'Port',
+                                 'smtp_timeout' => 'Timeout',
+                                 '_smtp_auth' => 'SMTPAuth',
+                             );
 
         if (isset($properties[$key])) {
-            $this->phpmailer->{$properties[$key]} = $this->$key;
+            $this->phpmailer-> {$properties[$key]} = $this->$key;
         }
     }
 

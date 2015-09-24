@@ -22,22 +22,22 @@ require("POParser.php");
 $target = "russian";
 
 $copyright = "<?php
-/*
- * This file is part of Jorani.
- *
- * Jorani is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Jorani is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- */\n\n";
+             /*
+             * This file is part of Jorani.
+             *
+             * Jorani is free software: you can redistribute it and/or modify
+             * it under the terms of the GNU General Public License as published by
+             * the Free Software Foundation, either version 3 of the License, or
+             * (at your option) any later version.
+             *
+             * Jorani is distributed in the hope that it will be useful,
+             * but WITHOUT ANY WARRANTY; without even the implied warranty of
+             * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+             * GNU General Public License for more details.
+             *
+             * You should have received a copy of the GNU General Public License
+             * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
+             */\n\n";
 
 //Load and parse the PO file
 $parser = new POParser;
@@ -60,11 +60,11 @@ foreach ($files as $file) {
         for ($jj = 0; $jj < $lenI18N; $jj++) {
             for ($ii = 0; $ii < $lenPO; $ii++) {
                 $po2ci = str_replace('\"', '"', $messages[1][$ii]['msgid']);
-				$po2ci = str_replace("'", '\'', $po2ci);
+                $po2ci = str_replace("'", '\'', $po2ci);
                 if ($out[2][$jj] != '') {
                     if (strcmp($po2ci, $out[2][$jj]) == 0) {
-					    $po2ci = str_replace('\"', '"', $messages[1][$ii]['msgstr']);
-						$po2ci = str_replace("'", '\'', $po2ci);
+                        $po2ci = str_replace('\"', '"', $messages[1][$ii]['msgstr']);
+                        $po2ci = str_replace("'", '\'', $po2ci);
                         if ($messages[1][$ii]['msgstr'] != '') {
                             $out[2][$jj] = $po2ci;
                         }
@@ -82,7 +82,7 @@ foreach ($files as $file) {
     }
 }
 
-//Internal utility function to join paths	
+//Internal utility function to join paths
 function join_paths() {
     $paths = array();
     foreach (func_get_args() as $arg) {

@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * This file is part of Jorani.
  *
  * Jorani is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -24,7 +24,7 @@ class Entitleddays_model extends CI_Model {
      * Default constructor
      */
     public function __construct() {
-        
+
     }
 
     /**
@@ -41,7 +41,7 @@ class Entitleddays_model extends CI_Model {
         $this->db->where('contract =', $contract);
         return $this->db->get()->result_array();
     }
-    
+
     /**
      * Get the list of entitleddays or one entitleddays record
      * @param int $id optional id of a entitleddays record
@@ -56,25 +56,25 @@ class Entitleddays_model extends CI_Model {
         $this->db->where('employee =', $employee);
         return $this->db->get()->result_array();
     }
-    
+
     /**
-     * Insert a new entitleddays record into the database. 
+     * Insert a new entitleddays record into the database.
      * Inserted data are coming from an HTML form
      * @return type
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function set_entitleddays_employee() {
-        
+
         $data = array(
-            'employee' => $this->input->post('id'),
-            'startdate' => $this->input->post('startdate'),
-            'enddate' => $this->input->post('enddate'),
-            'days' => $this->input->post('days'),
-            'type' => $this->input->post('type')
-        );
+                    'employee' => $this->input->post('id'),
+                    'startdate' => $this->input->post('startdate'),
+                    'enddate' => $this->input->post('enddate'),
+                    'days' => $this->input->post('days'),
+                    'type' => $this->input->post('type')
+                );
         return $this->db->insert('entitleddays', $data);
     }
-    
+
     /**
      * Insert a new entitleddays record into the database and return the id
      * @param int $contract_id contract identifier
@@ -88,13 +88,13 @@ class Entitleddays_model extends CI_Model {
      */
     public function insert_entitleddays_contract($contract_id, $startdate, $enddate, $days, $type, $description) {
         $data = array(
-            'contract' => $contract_id,
-            'startdate' => $startdate,
-            'enddate' => $enddate,
-            'days' => $days,
-            'type' => $type,
-            'description' => $description
-        );
+                    'contract' => $contract_id,
+                    'startdate' => $startdate,
+                    'enddate' => $enddate,
+                    'days' => $days,
+                    'type' => $type,
+                    'description' => $description
+                );
         $this->db->insert('entitleddays', $data);
         return $this->db->insert_id();
     }
@@ -112,35 +112,35 @@ class Entitleddays_model extends CI_Model {
      */
     public function insert_entitleddays_employee($user_id, $startdate, $enddate, $days, $type, $description) {
         $data = array(
-            'employee' => $user_id,
-            'startdate' => $startdate,
-            'enddate' => $enddate,
-            'days' => $days,
-            'type' => $type,
-            'description' => $description
-        );
+                    'employee' => $user_id,
+                    'startdate' => $startdate,
+                    'enddate' => $enddate,
+                    'days' => $days,
+                    'type' => $type,
+                    'description' => $description
+                );
         $this->db->insert('entitleddays', $data);
         return $this->db->insert_id();
     }
-    
+
     /**
-     * Insert a new entitleddays record into the database. 
+     * Insert a new entitleddays record into the database.
      * Inserted data are coming from an HTML form
      * @return type
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function set_entitleddays_contract() {
-        
+
         $data = array(
-            'contract' => $this->input->post('id'),
-            'startdate' => $this->input->post('startdate'),
-            'enddate' => $this->input->post('enddate'),
-            'days' => $this->input->post('days'),
-            'type' => $this->input->post('type')
-        );
+                    'contract' => $this->input->post('id'),
+                    'startdate' => $this->input->post('startdate'),
+                    'enddate' => $this->input->post('enddate'),
+                    'days' => $this->input->post('days'),
+                    'type' => $this->input->post('type')
+                );
         return $this->db->insert('entitleddays', $data);
     }
-    
+
     /**
      * Delete a entitleddays record from the database
      * @param int $id identifier of the entitleddays record
@@ -159,7 +159,7 @@ class Entitleddays_model extends CI_Model {
     public function delete_entitleddays_cascade_user($id) {
         $query = $this->db->delete('entitleddays', array('employee' => $id));
     }
-    
+
     /**
      * Delete a entitled days attached to a contract
      * @param int $id identifier of a contract
@@ -168,7 +168,7 @@ class Entitleddays_model extends CI_Model {
     public function delete_entitleddays_cascade_contract($id) {
         $query = $this->db->delete('entitleddays', array('contract' => $id));
     }
-    
+
     /**
      * Update a line of entitled days
      * @param int $id line of entitled days identifier (row id)
@@ -182,17 +182,17 @@ class Entitleddays_model extends CI_Model {
      */
     public function update_entitleddays($id, $startdate, $enddate, $days, $type, $description) {
         $data = array(
-            'startdate' => $startdate,
-            'enddate' => $enddate,
-            'days' => $days,
-            'type' => $type,
-            'description' => $description
-        );
+                    'startdate' => $startdate,
+                    'enddate' => $enddate,
+                    'days' => $days,
+                    'type' => $type,
+                    'description' => $description
+                );
 
         $this->db->where('id', $id);
         return $this->db->update('entitleddays', $data);
     }
-    
+
     /**
      * Increase an entitled days row
      * @param int $id row identifier
@@ -206,7 +206,7 @@ class Entitleddays_model extends CI_Model {
         $this->db->where('id', $id);
         return $this->db->update('entitleddays');
     }
-    
+
     /**
      * Decrease an entitled days row
      * @param int $id row identifier
@@ -220,7 +220,7 @@ class Entitleddays_model extends CI_Model {
         $this->db->where('id', $id);
         return $this->db->update('entitleddays');
     }
-    
+
     /**
      * Modify the the amount of days for a given entitled days row
      * @param int $id row identifier
@@ -234,10 +234,10 @@ class Entitleddays_model extends CI_Model {
         $this->db->where('id', $id);
         return $this->db->update('entitleddays');
     }
-    
+
     /**
      * Purge the table by deleting the records prior $toDate
-     * @param date $toDate 
+     * @param date $toDate
      * @return int number of affected rows
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */

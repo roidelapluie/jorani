@@ -18,7 +18,7 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -50,12 +50,12 @@ class Help {
     public function create_help_link($page) {
         if (lang($page) != "") {
             return '&nbsp;' .
-                      '<a href="' . lang($page) . '"' .
-                      ' title="' . lang('global_link_tooltip_documentation') . '"' .
-                      ' target="_blank" rel="nofollow"><i class="icon-question-sign"></i></a>';
+                   '<a href="' . lang($page) . '"' .
+                   ' title="' . lang('global_link_tooltip_documentation') . '"' .
+                   ' target="_blank" rel="nofollow"><i class="icon-question-sign"></i></a>';
         } else {
             return '';
-        }        
+        }
     }
 
     /**
@@ -82,7 +82,7 @@ class Help {
             } else {
                 return "http://jorani.org/";
             }
-             */            
+             */
         }
     }
 

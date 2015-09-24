@@ -18,23 +18,23 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 //This CI custom library is just a wrapper around PHPExcel library
-require_once APPPATH . "/third_party/PHPExcel.php"; 
- 
+require_once APPPATH . "/third_party/PHPExcel.php";
+
 class Excel extends PHPExcel {
-    
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function __construct() {
-        parent::__construct(); 
+        parent::__construct();
     }
-    
+
     /**
      * Return the excel column name for a given column index
      * @param type $number

@@ -18,14 +18,14 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
-    
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -35,7 +35,7 @@ class Admin extends CI_Controller {
         setUserContext($this);
         $this->lang->load('global', $this->language);
     }
-    
+
     /**
      * Display the settings of the system (extract of config.php)
      * @author Benjamin BALET <benjamin.balet@gmail.com>

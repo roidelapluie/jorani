@@ -16,40 +16,49 @@
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-    //You can change the content of this template
+//You can change the content of this template
 ?>
 <html lang="km">
-    <head>
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta charset="UTF-8">
-    </head>
-    <body>
-        <h3>{Title}</h3>
-        {Firstname} {Lastname} <a href="{BaseUrl}leaves/{LeaveId}">ស្នើសុំចាកចេញមួយខាងក្រោមសេចក្ដីលម្អិត</a> :
-        <table border="0">
-            <tr>
-                <td>មកពី &nbsp;</td><td>{StartDate}&nbsp;({StartDateType})</td>
-            </tr>
-            <tr>
-                <td>ទៅកាន់ &nbsp;</td><td>{EndDate}&nbsp;({EndDateType})</td>
-            </tr>
-            <tr>
-                <td>Type &nbsp;</td><td>{Type}</td>
-            </tr>
-            <tr>
-                <td>Duration &nbsp;</td><td>{Duration}</td>
-            </tr>
-            <tr>
-                <td>Balance &nbsp;</td><td>{Balance}</td>
-            </tr>
-            <tr>
-                <td>Reason &nbsp;</td><td>{Reason}</td>
-            </tr>
-            <tr>
-                <td><a href="{BaseUrl}requests/accept/{LeaveId}">ទទួលយកបាន</a> &nbsp;</td><td><a href="{BaseUrl}requests/reject/{LeaveId}">បដិសេធចោល</a></td>
-            </tr>
-        </table>
-<br />
-You can check the <a href="{BaseUrl}requests/counters/{UserId}">leave balance</a> before validating the leave request.
-    </body>
-</html>
+           <head>
+           <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+                         <meta charset="UTF-8">
+                                       </head>
+                                       <body>
+<h3> {Title}</h3>
+{Firstname} {Lastname} <a href="{BaseUrl}leaves/{LeaveId}">ស្នើសុំចាកចេញមួយខាងក្រោមសេចក្ដីលម្អិត</a> :
+<table border="0">
+              <tr>
+              <td>មកពី &nbsp;
+</td><td> {StartDate}&nbsp;
+({StartDateType})</td>
+</tr>
+<tr>
+<td>ទៅកាន់ &nbsp;
+</td><td> {EndDate}&nbsp;
+({EndDateType})</td>
+</tr>
+<tr>
+<td>Type &nbsp;
+</td><td> {Type}</td>
+</tr>
+<tr>
+<td>Duration &nbsp;
+</td><td> {Duration}</td>
+</tr>
+<tr>
+<td>Balance &nbsp;
+</td><td> {Balance}</td>
+</tr>
+<tr>
+<td>Reason &nbsp;
+</td><td> {Reason}</td>
+</tr>
+<tr>
+<td><a href="{BaseUrl}requests/accept/{LeaveId}">ទទួលយកបាន</a> &nbsp;
+</td><td><a href="{BaseUrl}requests/reject/{LeaveId}">បដិសេធចោល</a></td>
+                 </tr>
+                 </table>
+                 <br />
+                 You can check the <a href="{BaseUrl}requests/counters/{UserId}">leave balance</a> before validating the leave request.
+                         </body>
+                         </html>

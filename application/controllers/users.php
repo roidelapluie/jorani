@@ -18,7 +18,7 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -53,7 +53,7 @@ class Users extends CI_Controller {
         $this->load->view('users/index', $data);
         $this->load->view('templates/footer');
     }
-    
+
     /**
      * Set a user as active (TRUE) or inactive (FALSE)
      * @param int $id User identifier
@@ -66,18 +66,18 @@ class Users extends CI_Controller {
         $this->session->set_flashdata('msg', lang('users_edit_flash_msg_success'));
         redirect('users');
     }
-    
+
     /**
-     * Enable a user 
+     * Enable a user
      * @param int $id User identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function enable($id) {
         $this->active($id, TRUE);
     }
-    
+
     /**
-     * Disable a user 
+     * Disable a user
      * @param int $id User identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
@@ -127,7 +127,7 @@ class Users extends CI_Controller {
         $this->load->view('users/myprofile', $data);
         $this->load->view('templates/footer');
     }
-    
+
     /**
      * Display a for that allows updating a given user
      * @param int $id User identifier
@@ -142,7 +142,7 @@ class Users extends CI_Controller {
         $this->load->library('polyglot');
         $data['title'] = lang('users_edit_html_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_create_user');
-        
+
         $this->form_validation->set_rules('firstname', lang('users_edit_field_firstname'), 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('lastname', lang('users_edit_field_lastname'), 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('login', lang('users_edit_field_login'), 'required|xss_clean|strip_tags');
@@ -157,7 +157,7 @@ class Users extends CI_Controller {
         $this->form_validation->set_rules('language', lang('users_edit_field_language'), 'xss_clean|strip_tags');
         $this->form_validation->set_rules('timezone', lang('users_edit_field_timezone'), 'xss_clean|strip_tags');
         if ($this->config->item('ldap_basedn_db')) $this->form_validation->set_rules('ldap_path', lang('users_edit_field_ldap_path'), 'xss_clean|strip_tags');
-        
+
         $data['users_item'] = $this->users_model->get_users($id);
         if (empty($data['users_item'])) {
             show_404();
@@ -193,7 +193,7 @@ class Users extends CI_Controller {
      * @param int $id User identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function delete($id) { 
+    public function delete($id) {
         $this->auth->check_is_granted('delete_user');
         //Test if user exists
         $data['users_item'] = $this->users_model->get_users($id);
@@ -234,7 +234,7 @@ class Users extends CI_Controller {
             } else {
                 $this->users_model->reset_password($id, $this->input->post('CipheredValue'));
                 log_message('info', 'Password of user #' . $id . ' has been modified by user #' . $this->session->userdata('id'));
-                
+
                 //Send an e-mail to the user so as to inform that its password has been changed
                 $user = $this->users_model->get_users($id);
                 $this->load->library('email');
@@ -246,13 +246,13 @@ class Users extends CI_Controller {
 
                 $this->load->library('parser');
                 $data = array(
-                    'Title' => $lang_mail->line('email_password_reset_title'),
-                    'Firstname' => $user['firstname'],
-                    'Lastname' => $user['lastname']
-                );
+                            'Title' => $lang_mail->line('email_password_reset_title'),
+                            'Firstname' => $user['firstname'],
+                            'Lastname' => $user['lastname']
+                        );
                 $message = $this->parser->parse('emails/' . $user['language'] . '/password_reset', $data, TRUE);
                 $this->email->set_encoding('quoted-printable');
-                
+
                 if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
                     $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
                 } else {
@@ -262,12 +262,12 @@ class Users extends CI_Controller {
                 if ($this->config->item('subject_prefix') != FALSE) {
                     $subject = $this->config->item('subject_prefix');
                 } else {
-                   $subject = '[Jorani] ';
+                    $subject = '[Jorani] ';
                 }
                 $this->email->subject($subject . $lang_mail->line('email_password_reset_subject'));
                 $this->email->message($message);
                 $this->email->send();
-                
+
                 //Inform back the user by flash message
                 $this->session->set_flashdata('msg', lang('users_reset_flash_msg_success'));
                 if ($this->is_hr) {
@@ -324,46 +324,46 @@ class Users extends CI_Controller {
         } else {
             $password = $this->users_model->set_users();
             log_message('info', 'User ' . $this->input->post('login') . ' has been created by user #' . $this->session->userdata('id'));
-            
+
             //Send an e-mail to the user so as to inform that its account has been created
             $this->load->library('email');
             $usr_lang = $this->polyglot->code2language($this->input->post('language'));
             //We need to instance an different object as the languages of connected user may differ from the UI lang
             $lang_mail = new CI_Lang();
             $lang_mail->load('email', $usr_lang);
-            
+
             $this->load->library('parser');
             $data = array(
-                'Title' => $lang_mail->line('email_user_create_title'),
-                'BaseURL' => base_url(),
-                'Firstname' => $this->input->post('firstname'),
-                'Lastname' => $this->input->post('lastname'),
-                'Login' => $this->input->post('login'),
-                'Password' => $password
-            );
+                        'Title' => $lang_mail->line('email_user_create_title'),
+                        'BaseURL' => base_url(),
+                        'Firstname' => $this->input->post('firstname'),
+                        'Lastname' => $this->input->post('lastname'),
+                        'Login' => $this->input->post('login'),
+                        'Password' => $password
+                    );
             $message = $this->parser->parse('emails/' . $this->input->post('language') . '/new_user', $data, TRUE);
             $this->email->set_encoding('quoted-printable');
 
             if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
                 $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
             } else {
-               $this->email->from('do.not@reply.me', 'LMS');
+                $this->email->from('do.not@reply.me', 'LMS');
             }
             $this->email->to($this->input->post('email'));
             if ($this->config->item('subject_prefix') != FALSE) {
                 $subject = $this->config->item('subject_prefix');
             } else {
-               $subject = '[Jorani] ';
+                $subject = '[Jorani] ';
             }
             $this->email->subject($subject . $lang_mail->line('email_user_create_subject'));
             $this->email->message($message);
             $this->email->send();
-            
+
             $this->session->set_flashdata('msg', lang('users_create_flash_msg_success'));
             redirect('users');
         }
     }
-   
+
     /**
      * Form validation callback : prevent from login duplication
      * @param type $login
@@ -378,7 +378,7 @@ class Users extends CI_Controller {
             return true;
         }
     }
-    
+
     /**
      * Ajax endpoint : check login duplication
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -407,7 +407,7 @@ class Users extends CI_Controller {
         $sheet->setCellValue('C1', lang('users_export_thead_lastname'));
         $sheet->setCellValue('D1', lang('users_export_thead_email'));
         $sheet->setCellValue('E1', lang('users_export_thead_manager'));
-        
+
         $sheet->getStyle('A1:E1')->getFont()->setBold(true);
         $sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
@@ -426,7 +426,7 @@ class Users extends CI_Controller {
         foreach(range('A', 'E') as $colD) {
             $sheet->getColumnDimension($colD)->setAutoSize(TRUE);
         }
-        
+
         $filename = 'users.xls';
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . $filename . '"');

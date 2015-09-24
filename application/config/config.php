@@ -291,7 +291,7 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_cookie_name' = The cookie name
 | 'csrf_expire' = The number in seconds the token should expire.
 */
-if (isset($_SERVER["REQUEST_URI"])) 
+if (isset($_SERVER["REQUEST_URI"]))
 {
     if(stripos($_SERVER["REQUEST_URI"],'/api/') === FALSE)
     {
@@ -300,9 +300,9 @@ if (isset($_SERVER["REQUEST_URI"]))
     else
     {
         $config['csrf_protection'] = FALSE;
-    } 
-} 
-else 
+    }
+}
+else
 {
     $config['csrf_protection'] = TRUE;
 }
@@ -372,10 +372,10 @@ $config['proxy_ips'] = '';
 | LMS application settings
 |--------------------------------------------------------------------------
 |
-| 
-| 
-| 
-| 
+|
+|
+|
+|
 |
 */
 

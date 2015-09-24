@@ -18,12 +18,12 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 class Positions extends CI_Controller {
-    
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -52,7 +52,7 @@ class Positions extends CI_Controller {
         $this->load->view('positions/index', $data);
         $this->load->view('templates/footer');
     }
-    
+
     /**
      * Display a popup showing the list of positions
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -64,7 +64,7 @@ class Positions extends CI_Controller {
         $data['positions'] = $this->positions_model->get_positions();
         $this->load->view('positions/select', $data);
     }
-    
+
     /**
      * Display a form that allows adding a position
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -75,10 +75,10 @@ class Positions extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('form_validation');
         $data['title'] = lang('positions_create_title');
-        
+
         $this->form_validation->set_rules('name', lang('positions_create_field_name'), 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('description', lang('positions_create_field_description'), 'xss_clean|strip_tags');
-        
+
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('templates/header', $data);
             $this->load->view('menu/index', $data);
@@ -102,10 +102,10 @@ class Positions extends CI_Controller {
         $this->load->library('form_validation');
         $data['title'] = lang('positions_edit_title');
         $data['position'] = $this->positions_model->get_positions($id);
-        
+
         $this->form_validation->set_rules('name', lang('positions_edit_field_name'), 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('description', lang('positions_edit_field_description'), 'xss_clean|strip_tags');
-        
+
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('templates/header', $data);
             $this->load->view('menu/index', $data);
@@ -117,7 +117,7 @@ class Positions extends CI_Controller {
             redirect('positions');
         }
     }
-    
+
     /**
      * Action : delete a positions
      * @param int $id position identifier
@@ -154,7 +154,7 @@ class Positions extends CI_Controller {
             $sheet->setCellValue('C' . $line, $type['description']);
             $line++;
         }
-        
+
         //Autofit
         foreach(range('A', 'C') as $colD) {
             $sheet->getColumnDimension($colD)->setAutoSize(TRUE);

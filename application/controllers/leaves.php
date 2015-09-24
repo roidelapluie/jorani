@@ -18,12 +18,12 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 class Leaves extends CI_Controller {
-    
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -36,7 +36,7 @@ class Leaves extends CI_Controller {
         $this->lang->load('leaves', $this->language);
         $this->lang->load('global', $this->language);
     }
-    
+
     /**
      * Display the list of the leave requests of the connected user
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -55,7 +55,7 @@ class Leaves extends CI_Controller {
         $this->load->view('leaves/index', $data);
         $this->load->view('templates/footer');
     }
-    
+
     /**
      * Display the details of leaves taken/entitled for the connected user
      * @param string $refTmp Timestamp (reference date)
@@ -141,7 +141,7 @@ class Leaves extends CI_Controller {
         $this->load->library('form_validation');
         $data['title'] = lang('leaves_create_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_request_leave');
-        
+
         $this->form_validation->set_rules('startdate', lang('leaves_create_field_start'), 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('startdatetype', 'Start Date type', 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('enddate', lang('leaves_create_field_end'), 'required|xss_clean|strip_tags');
@@ -180,7 +180,7 @@ class Leaves extends CI_Controller {
             }
         }
     }
-    
+
     /**
      * Edit a leave request
      * @param int $id Identifier of the leave request
@@ -195,26 +195,26 @@ class Leaves extends CI_Controller {
         if (empty($data['leave'])) {
             show_404();
         }
-        //If the user is not its own manager and if the leave is 
+        //If the user is not its own manager and if the leave is
         //already requested, the employee can't modify it
         if (!$this->is_hr) {
             if (($this->session->userdata('manager') != $this->user_id) &&
                     $data['leave']['status'] != 1) {
                 if ($this->config->item('edit_rejected_requests') == FALSE ||
-                    $data['leave']['status'] != 4) {//Configuration switch that allows editing the rejected leave requests
+                        $data['leave']['status'] != 4) {//Configuration switch that allows editing the rejected leave requests
                     log_message('error', 'User #' . $this->user_id . ' illegally tried to edit leave #' . $id);
                     $this->session->set_flashdata('msg', lang('leaves_edit_flash_msg_error'));
                     redirect('leaves');
-                 }
+                }
             }
         } //Admin
-        
+
         $this->load->helper('form');
         $this->load->library('form_validation');
         $data['title'] = lang('leaves_edit_html_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_request_leave');
         $data['id'] = $id;
-        
+
         $data['credit'] = 0;
         $data['types'] = $this->types_model->get_types();
         foreach ($data['types'] as $type) {
@@ -223,7 +223,7 @@ class Leaves extends CI_Controller {
                 break;
             }
         }
-        
+
         $this->form_validation->set_rules('startdate', lang('leaves_edit_field_start'), 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('startdatetype', 'Start Date type', 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('enddate', lang('leaves_edit_field_end'), 'required|xss_clean|strip_tags');
@@ -254,7 +254,7 @@ class Leaves extends CI_Controller {
             }
         }
     }
-    
+
     /**
      * Send a leave request email to the manager of the connected employee
      * @param int $id Leave request identifier
@@ -278,12 +278,12 @@ class Leaves extends CI_Controller {
             $this->load->library('email');
             $this->load->library('polyglot');
             $usr_lang = $this->polyglot->code2language($manager['language']);
-            
+
             //We need to instance an different object as the languages of connected user may differ from the UI lang
             $lang_mail = new CI_Lang();
             $lang_mail->load('email', $usr_lang);
             $lang_mail->load('global', $usr_lang);
-            
+
             $date = new DateTime($leave['startdate']);
             $startdate = $date->format($lang_mail->line('global_date_format'));
             $date = new DateTime($leave['enddate']);
@@ -291,44 +291,44 @@ class Leaves extends CI_Controller {
 
             $this->load->library('parser');
             $data = array(
-                'Title' => $lang_mail->line('email_leave_request_title'),
-                'Firstname' => $user['firstname'],
-                'Lastname' => $user['lastname'],
-                'StartDate' => $startdate,
-                'EndDate' => $enddate,
-                'StartDateType' => $lang_mail->line($leave['startdatetype']),
-                'EndDateType' => $lang_mail->line($leave['enddatetype']),
-                'Type' => $this->types_model->get_label($leave['type']),
-                'Duration' => $leave['duration'],
-                'Balance' => $this->leaves_model->get_user_leaves_credit($leave['employee'] , $type_label, $leave['startdate']),
-                'Reason' => $leave['cause'],
-                'BaseUrl' => $this->config->base_url(),
-                'LeaveId' => $id,
-                'UserId' => $this->user_id
-            );
+                        'Title' => $lang_mail->line('email_leave_request_title'),
+                        'Firstname' => $user['firstname'],
+                        'Lastname' => $user['lastname'],
+                        'StartDate' => $startdate,
+                        'EndDate' => $enddate,
+                        'StartDateType' => $lang_mail->line($leave['startdatetype']),
+                        'EndDateType' => $lang_mail->line($leave['enddatetype']),
+                        'Type' => $this->types_model->get_label($leave['type']),
+                        'Duration' => $leave['duration'],
+                        'Balance' => $this->leaves_model->get_user_leaves_credit($leave['employee'] , $type_label, $leave['startdate']),
+                        'Reason' => $leave['cause'],
+                        'BaseUrl' => $this->config->base_url(),
+                        'LeaveId' => $id,
+                        'UserId' => $this->user_id
+                    );
             $message = $this->parser->parse('emails/' . $manager['language'] . '/request', $data, TRUE);
             $this->email->set_encoding('quoted-printable');
-            
+
             if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
                 $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
             } else {
-               $this->email->from('do.not@reply.me', 'LMS');
+                $this->email->from('do.not@reply.me', 'LMS');
             }
             $this->email->to($manager['email']);
             if ($this->config->item('subject_prefix') != FALSE) {
                 $subject = $this->config->item('subject_prefix');
             } else {
-               $subject = '[Jorani] ';
+                $subject = '[Jorani] ';
             }
             //Copy to the delegates, if any
             $delegates = $this->delegations_model->get_delegates_mails($manager['id']);
             if ($delegates != '') {
                 $this->email->cc($delegates);
             }
-            
+
             $this->email->subject($subject . $lang_mail->line('email_leave_request_subject') . ' ' .
-                    $this->session->userdata('firstname') . ' ' .
-                    $this->session->userdata('lastname'));
+                                  $this->session->userdata('firstname') . ' ' .
+                                  $this->session->userdata('lastname'));
             $this->email->message($message);
             $this->email->send();
         }
@@ -353,7 +353,7 @@ class Leaves extends CI_Controller {
                     $can_delete = true;
                 }
                 if ($this->config->item('delete_rejected_requests') == TRUE ||
-                    $leaves['status'] == 4) {
+                        $leaves['status'] == 4) {
                     $can_delete = true;
                 }
             }
@@ -398,7 +398,7 @@ class Leaves extends CI_Controller {
         $sheet->getStyle('A1:I1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
         $leaves = $this->leaves_model->get_employee_leaves($this->user_id);
-        
+
         $line = 2;
         foreach ($leaves as $leave) {
             $date = new DateTime($leave['startdate']);
@@ -416,7 +416,7 @@ class Leaves extends CI_Controller {
             $sheet->setCellValue('I' . $line, $leave['cause']);
             $line++;
         }
-        
+
         //Autofit
         foreach(range('A', 'I') as $colD) {
             $sheet->getColumnDimension($colD)->setAutoSize(TRUE);
@@ -455,7 +455,7 @@ class Leaves extends CI_Controller {
         $end = $this->input->get('end', TRUE);
         echo $this->leaves_model->workmates($this->session->userdata('manager'), $start, $end);
     }
-    
+
     /**
      * Ajax endpoint : Send a list of fullcalendar events
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -495,7 +495,7 @@ class Leaves extends CI_Controller {
         $end = $this->input->get('end', TRUE);
         echo $this->leaves_model->department($department[0]['id'], $start, $end);
     }
-    
+
     /**
      * Ajax endpoint. Result varies according to input :
      *  - difference between the entitled and the taken days

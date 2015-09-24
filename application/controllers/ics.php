@@ -18,14 +18,14 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 use Sabre\VObject;
 
 class Ics extends CI_Controller {
-    
+
     /**
      * Default constructor
      * Initializing of Sabre VObjets library
@@ -38,7 +38,7 @@ class Ics extends CI_Controller {
         $this->load->library('polyglot');
         require_once(APPPATH . 'third_party/VObjects/vendor/autoload.php');
     }
-    
+
     /**
      * Get the list of dayoffs for a given contract identifier
      * @param int $user identifier of the user wanting to view the list (mind timezone)
@@ -71,31 +71,31 @@ class Ics extends CI_Controller {
                     $startdate = new \DateTime($event->date, new \DateTimeZone($tzdef));
                     $enddate = new \DateTime($event->date, new \DateTimeZone($tzdef));
                     switch ($event->type) {
-                        case 1: 
-                            $startdate->setTime(0, 0);
-                            $enddate->setTime(23, 59);
-                            break;
-                        case 2:
-                            $startdate->setTime(0, 0);
-                            $enddate->setTime(12, 0);
-                            break;
-                        case 3:
-                            $startdate->setTime(12, 0);
-                            $enddate->setTime(23, 59);
-                            break;
-                    }                    
+                    case 1:
+                        $startdate->setTime(0, 0);
+                        $enddate->setTime(23, 59);
+                        break;
+                    case 2:
+                        $startdate->setTime(0, 0);
+                        $enddate->setTime(12, 0);
+                        break;
+                    case 3:
+                        $startdate->setTime(12, 0);
+                        $enddate->setTime(23, 59);
+                        break;
+                    }
                     $vcalendar->add('VEVENT', Array(
-                        'SUMMARY' => $event->title,
-                        'CATEGORIES' => lang('day off'),
-                        'DTSTART' => $startdate,
-                        'DTEND' => $enddate
-                    ));    
+                                        'SUMMARY' => $event->title,
+                                        'CATEGORIES' => lang('day off'),
+                                        'DTSTART' => $startdate,
+                                        'DTEND' => $enddate
+                                    ));
                 }
                 echo $vcalendar->serialize();
             }
         }
     }
-    
+
     /**
      * Get the list of leaves for a given employee identifier
      * @param int $id identifier of an employee
@@ -121,7 +121,7 @@ class Ics extends CI_Controller {
                     if ($tzdef == FALSE) $tzdef = 'Europe/Paris';
                 }
                 $this->lang->load('global', $this->polyglot->code2language($employee['language']));
-                
+
                 $vcalendar = new VObject\Component\VCalendar();
                 foreach ($result as $event) {
                     $startdate = new \DateTime($event['startdate'], new \DateTimeZone($tzdef));
@@ -130,15 +130,15 @@ class Ics extends CI_Controller {
                     if ($event['startdatetype'] == 'Afternoon') $startdate->setTime(12, 0);
                     if ($event['enddatetype'] == 'Morning') $enddate->setTime(12, 0);
                     if ($event['enddatetype'] == 'Afternoon') $enddate->setTime(23, 59);
-                    
+
                     $vcalendar->add('VEVENT', Array(
-                        'SUMMARY' => lang('leave'),
-                        'CATEGORIES' => lang('leave'),
-                        'DTSTART' => $startdate,
-                        'DTEND' => $enddate,
-                        'DESCRIPTION' => $event['cause'],
-                        'URL' => base_url() . "leaves/" . $event['id'],
-                    ));    
+                                        'SUMMARY' => lang('leave'),
+                                        'CATEGORIES' => lang('leave'),
+                                        'DTSTART' => $startdate,
+                                        'DTEND' => $enddate,
+                                        'DESCRIPTION' => $event['cause'],
+                                        'URL' => base_url() . "leaves/" . $event['id'],
+                                    ));
                 }
                 echo $vcalendar->serialize();
             }
@@ -172,7 +172,7 @@ class Ics extends CI_Controller {
                     if ($tzdef == FALSE) $tzdef = 'Europe/Paris';
                 }
                 $this->lang->load('global', $this->polyglot->code2language($employee['language']));
-                
+
                 $vcalendar = new VObject\Component\VCalendar();
                 foreach ($result as $event) {
                     $startdate = new \DateTime($event['startdate'], new \DateTimeZone($tzdef));
@@ -181,21 +181,21 @@ class Ics extends CI_Controller {
                     if ($event['startdatetype'] == 'Afternoon') $startdate->setTime(12, 0);
                     if ($event['enddatetype'] == 'Morning') $enddate->setTime(12, 0);
                     if ($event['enddatetype'] == 'Afternoon') $enddate->setTime(23, 59);
-                    
+
                     $vcalendar->add('VEVENT', Array(
-                        'SUMMARY' => $event['firstname'] . ' ' . $event['lastname'],
-                        'CATEGORIES' => lang('leave'),
-                        'DTSTART' => $startdate,
-                        'DTEND' => $enddate,
-                        'DESCRIPTION' => $event['type'] . ($event['cause']!=''?(' / ' . $event['cause']):''),
-                        'URL' => base_url() . "leaves/" . $event['id'],
-                    ));    
+                                        'SUMMARY' => $event['firstname'] . ' ' . $event['lastname'],
+                                        'CATEGORIES' => lang('leave'),
+                                        'DTSTART' => $startdate,
+                                        'DTEND' => $enddate,
+                                        'DESCRIPTION' => $event['type'] . ($event['cause']!=''?(' / ' . $event['cause']):''),
+                                        'URL' => base_url() . "leaves/" . $event['id'],
+                                    ));
                 }
                 echo $vcalendar->serialize();
             }
         }
     }
-    
+
     /**
      * Action : download an iCal event corresponding to a leave request
      * @param int leave request id
@@ -217,16 +217,16 @@ class Ics extends CI_Controller {
             if ($tzdef == FALSE) $tzdef = 'Europe/Paris';
         }
         $this->lang->load('global', $this->polyglot->code2language($employee['language']));
-        
+
         $vcalendar = new VObject\Component\VCalendar();
         $vcalendar->add('VEVENT', Array(
-            'SUMMARY' => lang('leave'),
-            'CATEGORIES' => lang('leave'),
-            'DESCRIPTION' => $leave['cause'],
-            'DTSTART' => new \DateTime($leave['startdate'], new \DateTimeZone($tzdef)),
-            'DTEND' => new \DateTime($leave['enddate'], new \DateTimeZone($tzdef)),
-            'URL' => base_url() . "leaves/" . $id,
-        ));
+                            'SUMMARY' => lang('leave'),
+                            'CATEGORIES' => lang('leave'),
+                            'DESCRIPTION' => $leave['cause'],
+                            'DTSTART' => new \DateTime($leave['startdate'], new \DateTimeZone($tzdef)),
+        'DTEND' => new \DateTime($leave['enddate'], new \DateTimeZone($tzdef)),
+        'URL' => base_url() . "leaves/" . $id,
+                        ));
         echo $vcalendar->serialize();
     }
 }

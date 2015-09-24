@@ -18,12 +18,12 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 class Extra extends CI_Controller {
-    
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -56,7 +56,7 @@ class Extra extends CI_Controller {
         $this->load->view('extra/index', $data);
         $this->load->view('templates/footer');
     }
-    
+
     /**
      * Display an overtime request
      * @param int $id identifier of the leave request
@@ -70,7 +70,7 @@ class Extra extends CI_Controller {
         if (empty($data['extra'])) {
             show_404();
         }
-        
+
         //If the user is not its not HR, not manager and not the creator of the overtime
         //the employee can't see it, redirect to LR list
         if ($data['extra']['employee'] != $this->user_id) {
@@ -83,7 +83,7 @@ class Extra extends CI_Controller {
                 }
             } //Admin
         } //Current employee
-        
+
         $data['extra']['status_label'] = $this->status_model->get_label($data['extra']['status']);
         $data['title'] = lang('extra_view_hmtl_title');
         $this->load->model('users_model');
@@ -103,7 +103,7 @@ class Extra extends CI_Controller {
         $data = getUserContext($this);
         $this->load->helper('form');
         $this->load->library('form_validation');
-        
+
         $this->form_validation->set_rules('date', lang('extra_create_field_date'), 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('duration', lang('extra_create_field_duration'), 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('cause', lang('extra_create_field_cause'), 'required|xss_clean|strip_tags');
@@ -130,7 +130,7 @@ class Extra extends CI_Controller {
             }
         }
     }
-    
+
     /**
      * Edit an overtime request
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -143,7 +143,7 @@ class Extra extends CI_Controller {
         if (empty($data['extra'])) {
             show_404();
         }
-        //If the user is not its own manager and if the overtime is 
+        //If the user is not its own manager and if the overtime is
         //already requested, the employee can't modify it
         if (!$this->is_hr) {
             if (($this->session->userdata('manager') != $this->user_id) &&
@@ -153,7 +153,7 @@ class Extra extends CI_Controller {
                 redirect('extra');
             }
         } //Admin
-        
+
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('date', lang('extra_edit_field_date'), 'required|xss_clean|strip_tags');
@@ -185,7 +185,7 @@ class Extra extends CI_Controller {
             }
         }
     }
-    
+
     /**
      * Send a overtime request email to the manager of the connected employee
      * @param int $id overtime request identifier
@@ -217,28 +217,28 @@ class Extra extends CI_Controller {
 
             $this->load->library('parser');
             $data = array(
-                'Title' => $lang_mail->line('email_extra_request_validation_title'),
-                'Firstname' => $this->session->userdata('firstname'),
-                'Lastname' => $this->session->userdata('lastname'),
-                'Date' => $startdate,
-                'Duration' => $this->input->post('duration'),
-                'Cause' => $this->input->post('cause'),
-                'UrlAccept' => $acceptUrl,
-                'UrlReject' => $rejectUrl
-            );
+                        'Title' => $lang_mail->line('email_extra_request_validation_title'),
+                        'Firstname' => $this->session->userdata('firstname'),
+                        'Lastname' => $this->session->userdata('lastname'),
+                        'Date' => $startdate,
+                        'Duration' => $this->input->post('duration'),
+                        'Cause' => $this->input->post('cause'),
+                        'UrlAccept' => $acceptUrl,
+                        'UrlReject' => $rejectUrl
+                    );
             $message = $this->parser->parse('emails/' . $manager['language'] . '/overtime', $data, TRUE);
             $this->email->set_encoding('quoted-printable');
-            
+
             if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
                 $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
             } else {
-               $this->email->from('do.not@reply.me', 'LMS');
+                $this->email->from('do.not@reply.me', 'LMS');
             }
             $this->email->to($manager['email']);
             if ($this->config->item('subject_prefix') != FALSE) {
                 $subject = $this->config->item('subject_prefix');
             } else {
-               $subject = '[Jorani] ';
+                $subject = '[Jorani] ';
             }
             //Copy to the delegates, if any
             $delegates = $this->delegations_model->get_delegates_mails($manager['id']);
@@ -246,8 +246,8 @@ class Extra extends CI_Controller {
                 $this->email->cc($delegates);
             }
             $this->email->subject($subject . $lang_mail->line('email_extra_request_reject_subject') . ' ' .
-                    $this->session->userdata('firstname') . ' ' .
-                    $this->session->userdata('lastname'));
+                                  $this->session->userdata('firstname') . ' ' .
+                                  $this->session->userdata('lastname'));
             $this->email->message($message);
             $this->email->send();
         }
@@ -285,7 +285,7 @@ class Extra extends CI_Controller {
             redirect('extra');
         }
     }
-    
+
     /**
      * Action: export the list of all extra times into an Excel file
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -305,7 +305,7 @@ class Extra extends CI_Controller {
 
         $extras = $this->overtime_model->get_user_extras($this->user_id);
         $this->load->model('status_model');
-        
+
         $line = 2;
         foreach ($extras as $extra) {
             $date = new DateTime($extra['date']);
@@ -317,7 +317,7 @@ class Extra extends CI_Controller {
             $sheet->setCellValue('E' . $line, lang($this->status_model->get_label($extra['status'])));
             $line++;
         }
-        
+
         //Autofit
         foreach(range('A', 'E') as $colD) {
             $sheet->getColumnDimension($colD)->setAutoSize(TRUE);

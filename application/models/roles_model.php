@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * This file is part of Jorani.
  *
  * Jorani is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -32,7 +32,7 @@ class Roles_model extends CI_Model {
             00001000 16	HR Manager
             00010000 32	General Manager
             00100000 34	Global Manager
-         * 
+         *
          */
     }
 

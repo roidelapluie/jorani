@@ -16,12 +16,12 @@
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-    //You can change the content of this template
+//You can change the content of this template
 ?>
 <html lang="en">
-    <body>
-        <h3>{Title}</h3>
-        <p>Lieber {Firstname} {Lastname},</p>
-        <p>Sollten Sie kein neues Passwort angefordert haben kontaktieren Sie bitte Ihren Administrator.</p>
-    </body>
+           <body>
+           <h3> {Title}</h3>
+<p>Lieber {Firstname} {Lastname},</p>
+<p>Sollten Sie kein neues Passwort angefordert haben kontaktieren Sie bitte Ihren Administrator.</p>
+</body>
 </html>

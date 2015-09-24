@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of Jorani.
  *
@@ -14,16 +14,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 ?>
 
 <?php $attributes = array('id' => 'frmCreateLeaveType');
-echo form_open('leavetypes/create', $attributes); ?>
-    <label for="name"><?php echo lang('leavetypes_popup_create_field_name');?></label>
-    <input type="text" name="name" id="name" pattern=".{1,}" required />
-    <br />
-    <button id="send" class="btn btn-primary"><?php echo lang('leavetypes_popup_create_button_create');?></button>
+echo form_open('leavetypes/create', $attributes);
+?>
+<label for="name"><?php echo lang('leavetypes_popup_create_field_name');
+?></label>
+<input type="text" name="name" id="name" pattern=".{1,}" required />
+                                  <br />
+                                  <button id="send" class="btn btn-primary"><?php echo lang('leavetypes_popup_create_button_create');
+?></button>
 </form>
 

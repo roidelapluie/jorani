@@ -18,14 +18,14 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Requests extends CI_Controller {
-    
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -58,7 +58,7 @@ class Requests extends CI_Controller {
         $data['title'] = lang('requests_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_leave_validation');
         $data['requests'] = $this->leaves_model->requests($this->user_id, $showAll);
-        
+
         $this->load->model('types_model');
         $this->load->model('status_model');
         for ($i = 0; $i < count($data['requests']); ++$i) {
@@ -132,7 +132,7 @@ class Requests extends CI_Controller {
             redirect('leaves');
         }
     }
-    
+
     /**
      * Display the list of all requests submitted to the line manager (Status is submitted)
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -182,7 +182,7 @@ class Requests extends CI_Controller {
             redirect('leaves');
         }
     }
-    
+
     /**
      * Ajax endpoint : Delete a delegation for a manager
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -203,7 +203,7 @@ class Requests extends CI_Controller {
             }
         }
     }
-    
+
     /**
      * Ajax endpoint : Add a delegation for a manager
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -228,7 +228,7 @@ class Requests extends CI_Controller {
             }
         }
     }
-    
+
     /**
      * Create a leave request in behalf of a collaborator
      * @param int $id Identifier of the employee
@@ -313,7 +313,7 @@ class Requests extends CI_Controller {
 
             $data['refDate'] = $refDate;
             $data['summary'] = $this->leaves_model->get_user_leaves_summary($id, FALSE, $refDate);
-            
+
             if (!is_null($data['summary'])) {
                 $this->load->model('entitleddays_model');
                 $this->load->model('types_model');
@@ -330,7 +330,7 @@ class Requests extends CI_Controller {
                 $data['contract_id'] = $user['contract'];
                 $data['entitleddayscontract'] = $this->entitleddays_model->get_entitleddays_contract($user['contract']);
                 $data['entitleddaysemployee'] = $this->entitleddays_model->get_entitleddays_employee($id);
-                
+
                 expires_now();
                 $data['title'] = lang('requests_summary_title');
                 $data['help'] = $this->help->create_help_link('global_link_doc_page_leave_balance_collaborators');
@@ -347,7 +347,7 @@ class Requests extends CI_Controller {
 
     /**
      * Send a leave request email to the employee that requested the leave
-     * The method will check if the leave request wes accepted or rejected 
+     * The method will check if the leave request wes accepted or rejected
      * before sending the e-mail
      * @param int $id Leave request identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -364,12 +364,12 @@ class Requests extends CI_Controller {
         $this->load->library('email');
         $this->load->library('polyglot');
         $usr_lang = $this->polyglot->code2language($leave['language']);
-        
+
         //We need to instance an different object as the languages of connected user may differ from the UI lang
         $lang_mail = new CI_Lang();
         $lang_mail->load('email', $usr_lang);
         $lang_mail->load('global', $usr_lang);
-        
+
         $date = new DateTime($leave['startdate']);
         $startdate = $date->format($lang_mail->line('global_date_format'));
         $date = new DateTime($leave['enddate']);
@@ -377,22 +377,22 @@ class Requests extends CI_Controller {
 
         $this->load->library('parser');
         $data = array(
-            'Title' => $lang_mail->line('email_leave_request_validation_title'),
-            'Firstname' => $leave['firstname'],
-            'Lastname' => $leave['lastname'],
-            'StartDate' => $startdate,
-            'EndDate' => $enddate,
-            'StartDateType' => $lang_mail->line($leave['startdatetype']),
-            'EndDateType' => $lang_mail->line($leave['enddatetype']),
-            'Cause' => $leave['cause'],
-            'Type' => $leave['type']
-        );
-        
+                    'Title' => $lang_mail->line('email_leave_request_validation_title'),
+                    'Firstname' => $leave['firstname'],
+                    'Lastname' => $leave['lastname'],
+                    'StartDate' => $startdate,
+                    'EndDate' => $enddate,
+                    'StartDateType' => $lang_mail->line($leave['startdatetype']),
+                    'EndDateType' => $lang_mail->line($leave['enddatetype']),
+                    'Cause' => $leave['cause'],
+                    'Type' => $leave['type']
+                );
+
         $message = "";
         if ($this->config->item('subject_prefix') != FALSE) {
             $subject = $this->config->item('subject_prefix');
         } else {
-           $subject = '[Jorani] ';
+            $subject = '[Jorani] ';
         }
         if ($leave['status'] == 3) {
             $message = $this->parser->parse('emails/' . $leave['language'] . '/request_accepted', $data, TRUE);
@@ -402,11 +402,11 @@ class Requests extends CI_Controller {
             $this->email->subject($subject . $lang_mail->line('email_leave_request_reject_subject'));
         }
         $this->email->set_encoding('quoted-printable');
-        
+
         if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
-           $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
+            $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
         } else {
-           $this->email->from('do.not@reply.me', 'LMS');
+            $this->email->from('do.not@reply.me', 'LMS');
         }
         $this->email->to($leave['email']);
         if (!is_null($supervisor)) {
@@ -415,7 +415,7 @@ class Requests extends CI_Controller {
         $this->email->message($message);
         $this->email->send();
     }
-    
+
     /**
      * Action: export the list of all leave requests into an Excel file
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -445,7 +445,7 @@ class Requests extends CI_Controller {
         $requests = $this->leaves_model->requests($this->user_id, $showAll);
         $this->load->model('status_model');
         $this->load->model('types_model');
-        
+
         $line = 2;
         foreach ($requests as $request) {
             $date = new DateTime($request['startdate']);
@@ -464,7 +464,7 @@ class Requests extends CI_Controller {
             $sheet->setCellValue('J' . $line, lang($this->status_model->get_label($request['status'])));
             $line++;
         }
-        
+
         //Autofit
         foreach(range('A', 'J') as $colD) {
             $sheet->getColumnDimension($colD)->setAutoSize(TRUE);

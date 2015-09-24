@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -60,7 +60,7 @@ foreach ($lang as $message) {
 //Write the file content
 file_put_contents('jorani.pot', $messages);
 
-//Internal utility function to join paths	
+//Internal utility function to join paths
 function join_paths() {
     $paths = array();
     foreach (func_get_args() as $arg) {

@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * This file is part of Jorani.
  *
  * Jorani is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -24,7 +24,7 @@ class Types_model extends CI_Model {
      * Default constructor
      */
     public function __construct() {
-        
+
     }
 
     /**
@@ -41,7 +41,7 @@ class Types_model extends CI_Model {
         $query = $this->db->get_where('types', array('id' => $id));
         return $query->row_array();
     }
-    
+
     /**
      * Get the label of a given type id
      * @param int $id ID of the type
@@ -51,7 +51,7 @@ class Types_model extends CI_Model {
         $type = $this->get_types($id);
         return $type['name'];
     }
-    
+
     /**
      * Insert a new leave type
      * Inserted data are coming from an HTML form
@@ -59,13 +59,13 @@ class Types_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function set_types() {
-        
+
         $data = array(
-            'name' => $this->input->post('name')
-        );
+                    'name' => $this->input->post('name')
+                );
         return $this->db->insert('types', $data);
     }
-    
+
     /**
      * Delete a leave type from the database
      * @param int $id identifier of the leave type record
@@ -74,7 +74,7 @@ class Types_model extends CI_Model {
     public function delete_type($id) {
         $query = $this->db->delete('types', array('id' => $id));
     }
-    
+
     /**
      * Update a given leave type in the database. Update data are coming from an
      * HTML form
@@ -83,13 +83,13 @@ class Types_model extends CI_Model {
      */
     public function update_types() {
         $data = array(
-            'name' => $this->input->post('name')
-        );
+                    'name' => $this->input->post('name')
+                );
 
         $this->db->where('id', $this->input->post('id'));
         return $this->db->update('types', $data);
     }
-    
+
     /**
      * Count the number of time a leave type is used into the database
      * @param int $id identifier of the leave type record
@@ -103,7 +103,7 @@ class Types_model extends CI_Model {
         $result = $query->row_array();
         return $result['COUNT(*)'];
     }
-    
+
     /**
      * Create an arry containing the list of all existing leave types
      * Modify the name (key) of the compensate leave type name passed as parameter

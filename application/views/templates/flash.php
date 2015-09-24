@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of Jorani.
  *
@@ -14,20 +14,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 ?>
-<?php if($this->session->flashdata('msg')){ ?>
-<div class="alert fade in" id="flashbox">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <?php echo $this->session->flashdata('msg'); ?>
-</div>
- 
-<script type="text/javascript">
+<?php if($this->session->flashdata('msg')) {
+    ?>
+    <div class="alert fade in" id="flashbox">
+                                      <button type="button" class="close" data-dismiss="alert">&times;
+    </button>
+    <?php echo $this->session->flashdata('msg');
+    ?>
+    </div>
+
+    <script type="text/javascript">
 //Flash message
-$(document).ready(function() {
-    $("#flashbox").alert();
-});
-</script>
-<?php } ?>
+    $(document).ready(function() {
+        $("#flashbox").alert();
+    });
+    </script>
+    <?php
+} ?>

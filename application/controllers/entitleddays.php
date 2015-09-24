@@ -18,12 +18,12 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 class Entitleddays extends CI_Controller {
-   
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -52,7 +52,7 @@ class Entitleddays extends CI_Controller {
         $this->load->model('users_model');
         $user = $this->users_model->get_users($id);
         $data['employee_name'] = $this->users_model->get_label($id);
-        
+
         if (!empty ($user['contract'])) {
             $this->load->model('contracts_model');
             $contract = $this->contracts_model->get_contracts($user['contract']);
@@ -64,7 +64,7 @@ class Entitleddays extends CI_Controller {
         } else {
             $data['contract_name'] = '';
         }
-        
+
         $data['title'] = lang('entitleddays_user_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_entitleddays_employee');
         $this->load->view('templates/header', $data);
@@ -72,7 +72,7 @@ class Entitleddays extends CI_Controller {
         $this->load->view('entitleddays/user', $data);
         $this->load->view('templates/footer');
     }
-    
+
     /**
      * Display an ajax-based form that list entitled days of a contract
      * and allow updating the list by adding or removing one item
@@ -94,7 +94,7 @@ class Entitleddays extends CI_Controller {
         $data['contract_start_day'] = intval(substr($contract['startentdate'], 3));
         $data['contract_end_month'] = intval(substr($contract['endentdate'], 0, 2));
         $data['contract_end_day'] = intval(substr($contract['endentdate'], 3));
-        
+
         $data['title'] = lang('entitleddays_contract_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_entitleddays_contract');
         $this->load->view('templates/header', $data);
@@ -102,7 +102,7 @@ class Entitleddays extends CI_Controller {
         $this->load->view('entitleddays/contract', $data);
         $this->load->view('templates/footer');
     }
-    
+
     /**
      * Ajax endpoint : delete an entitled days credit (to an employee)
      * and returns the number of rows affected
@@ -114,7 +114,7 @@ class Entitleddays extends CI_Controller {
         $this->output->set_content_type('text/plain');
         echo $this->entitleddays_model->delete_entitleddays($id);
     }
-    
+
     /**
      * Ajax endpoint : delete an entitled days credit (to a contract)
      * and returns the number of rows affected
@@ -126,7 +126,7 @@ class Entitleddays extends CI_Controller {
         $this->output->set_content_type('text/plain');
         echo $this->entitleddays_model->delete_entitleddays($id);
     }
-    
+
     /**
      * Ajax endpoint : insert into the list of entitled days for a given user
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -150,7 +150,7 @@ class Entitleddays extends CI_Controller {
             }
         }
     }
-    
+
     /**
      * Ajax endpoint : insert into the list of entitled days for a given contract
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -174,9 +174,9 @@ class Entitleddays extends CI_Controller {
             }
         }
     }
-    
+
     /**
-     * Ajax endpoint : Update an entitled days row 
+     * Ajax endpoint : Update an entitled days row
      * on a contract of an employee (as the both are stored into the same table)
      * id : row identifier into the database
      * operation : "increase" or "decrease" by 1 (the number can be negative).
@@ -189,29 +189,29 @@ class Entitleddays extends CI_Controller {
             $this->output->set_header("HTTP/1.1 403 Forbidden");
         } else {
             $id = $this->input->post('id', TRUE);
-            $operation = $this->input->post('operation', TRUE);   
+            $operation = $this->input->post('operation', TRUE);
             if (isset($id) && isset($operation)) {
                 $this->output->set_content_type('text/plain');
                 $days = $this->input->post('days', TRUE);
                 switch ($operation) {
-                    case  "increase":
-                        $id = $this->entitleddays_model->inc_entitleddays($id, $days);
-                        break;
-                    case "decrease":
-                        $id = $this->entitleddays_model->dec_entitleddays($id, $days);
-                        break;
-                    case "credit":
-                        $id = $this->entitleddays_model->update_days_entitleddays($id, $days);
-                        break;
-                    case "update":
-                        $startdate = $this->input->post('startdate', TRUE);
-                        $enddate = $this->input->post('enddate', TRUE);
-                        $type = $this->input->post('type', TRUE);
-                        $description = sanitize($this->input->post('description', TRUE));
-                        $id = $this->entitleddays_model->update_entitleddays($id, $startdate, $enddate, $days, $type, $description);
-                        break;
-                    default:
-                        $this->output->set_header("HTTP/1.1 422 Unprocessable entity");
+                case  "increase":
+                    $id = $this->entitleddays_model->inc_entitleddays($id, $days);
+                    break;
+                case "decrease":
+                    $id = $this->entitleddays_model->dec_entitleddays($id, $days);
+                    break;
+                case "credit":
+                    $id = $this->entitleddays_model->update_days_entitleddays($id, $days);
+                    break;
+                case "update":
+                    $startdate = $this->input->post('startdate', TRUE);
+                    $enddate = $this->input->post('enddate', TRUE);
+                    $type = $this->input->post('type', TRUE);
+                    $description = sanitize($this->input->post('description', TRUE));
+                    $id = $this->entitleddays_model->update_entitleddays($id, $startdate, $enddate, $days, $type, $description);
+                    break;
+                default:
+                    $this->output->set_header("HTTP/1.1 422 Unprocessable entity");
                 }
                 echo $id;
             } else {

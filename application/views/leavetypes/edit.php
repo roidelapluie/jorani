@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of Jorani.
  *
@@ -14,15 +14,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 ?>
 
-<?php echo form_open('leavetypes/edit/' . $id); ?>
-    <input type="hidden" name="id" value="<?php echo $id; ?>" />
-    <label for="name"><?php echo lang('leavetypes_popup_update_field_name');?></label>
-    <input type="text" name="name" value="<?php echo $type_name; ?>" />
-    <br />
-    <button id="send" class="btn btn-primary"><?php echo lang('leavetypes_popup_update_button_update');?></button>
+<?php echo form_open('leavetypes/edit/' . $id);
+?>
+<input type="hidden" name="id" value="<?php echo $id; ?>" />
+                                     <label for="name"><?php echo lang('leavetypes_popup_update_field_name');
+?></label>
+<input type="text" name="name" value="<?php echo $type_name; ?>" />
+                                     <br />
+                                     <button id="send" class="btn btn-primary"><?php echo lang('leavetypes_popup_update_button_update');
+?></button>
 </form>

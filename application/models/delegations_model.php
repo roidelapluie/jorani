@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -39,7 +39,7 @@ class Delegations_model extends CI_Model {
         $query = $this->db->get_where('delegations', array('manager_id' => $id));
         return $query->result_array();
     }
-    
+
     /**
      * Return TRUE if an employee is the delegate of a manager, FALSE otherwise
      * @param int $employee id of the employee to be checked
@@ -58,7 +58,7 @@ class Delegations_model extends CI_Model {
             return FALSE;
         }
     }
-    
+
     /**
      * Return TRUE if an employee has any delegation, FALSE otherwise
      * @param int $employee id of the employee to be checked
@@ -75,7 +75,7 @@ class Delegations_model extends CI_Model {
             return FALSE;
         }
     }
-    
+
     /**
      * Get the list of manager ids for which an employee has the delegation
      * @param int $employee id of an employee
@@ -93,7 +93,7 @@ class Delegations_model extends CI_Model {
         }
         return $ids;
     }
-    
+
     /**
      * Get the list of e-mails of employees having the delegation from a manager
      * @param int $id id of a manager
@@ -114,7 +114,7 @@ class Delegations_model extends CI_Model {
             return '';
         }
     }
-    
+
     /**
      * Insert a list of day offs into the day offs table
      * @param int $contract Identifier of the contract
@@ -124,13 +124,13 @@ class Delegations_model extends CI_Model {
      */
     public function add_delegate($manager, $delegate) {
         $data = array(
-            'manager_id' => $manager,
-            'delegate_id' => $delegate
-        );
+                    'manager_id' => $manager,
+                    'delegate_id' => $delegate
+                );
         $this->db->insert('delegations', $data);
         return $this->db->insert_id();
     }
-    
+
     /**
      * Delete a delegation from the database
      * @param int $id identifier of the delegation

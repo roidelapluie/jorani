@@ -14,34 +14,56 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 ?>
 
-<h2><?php echo lang('extra_view_title');?><?php echo $extra['id']; ?>&nbsp;<span class="muted">(<?php echo $name ?>)</span></h2>
+<h2><?php echo lang('extra_view_title');
+?><?php echo $extra['id'];
+?>&nbsp;
+<span class="muted">(<?php echo $name ?>)</span></h2>
 
-    <label for="date" required><?php echo lang('extra_view_field_date');?></label>
-    <input type="text" name="date"  value="<?php $date = new DateTime($extra['date']); echo $date->format(lang('global_date_format'));?>" readonly />
-    
-    <label for="duration" required><?php echo lang('extra_view_field_duration');?></label>
-    <input type="text" name="duration"  value="<?php echo $extra['duration']; ?>" readonly />
-    
-    <label for="cause"><?php echo lang('extra_view_field_cause');?></label>
-    <textarea name="cause" readonly><?php echo $extra['cause']; ?></textarea>
-    
-    <label for="status"><?php echo lang('extra_view_field_status');?></label>
-    <select name="status" readonly>
-        <option selected><?php echo lang($extra['status_label']); ?></option>
-    </select><br />
-    <br /><br />
-    <?php if (($extra['status'] == 1) || ($is_hr)) { ?>
-    <a href="<?php echo base_url();?>extra/edit/<?php echo $extra['id'] ?>" class="btn btn-primary"><i class="icon-pencil icon-white"></i>&nbsp;<?php echo lang('extra_view_button_edit');?></a>
+                <label for="date" required><?php echo lang('extra_view_field_date');
+?></label>
+<input type="text" name="date"  value="<?php $date = new DateTime($extra['date']); echo $date->format(lang('global_date_format'));?>" readonly />
+
+                                      <label for="duration" required><?php echo lang('extra_view_field_duration');
+?></label>
+<input type="text" name="duration"  value="<?php echo $extra['duration']; ?>" readonly />
+
+                        <label for="cause"><?php echo lang('extra_view_field_cause');
+?></label>
+<textarea name="cause" readonly><?php echo $extra['cause'];
+?></textarea>
+
+<label for="status"><?php echo lang('extra_view_field_status');
+?></label>
+<select name="status" readonly>
+             <option selected><?php echo lang($extra['status_label']);
+?></option>
+</select><br />
+<br /><br />
+<?php if (($extra['status'] == 1) || ($is_hr)) {
+    ?>
+    <a href="<?php echo base_url();?>extra/edit/<?php echo $extra['id'] ?>" class="btn btn-primary"><i class="icon-pencil icon-white"></i>&nbsp;
+    <?php echo lang('extra_view_button_edit');
+    ?></a>
     &nbsp;
-    <?php } ?>
-    
-    <?php if (isset($_GET['source'])) {?>
-        <a href="<?php echo base_url() . $_GET['source']; ?>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i>&nbsp;<?php echo lang('extra_view_button_back_list');?></a>
-    <?php } else {?>
-        <a href="<?php echo base_url();?>extra" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i>&nbsp;<?php echo lang('extra_view_button_back_list');?></a>
-    <?php } ?>
+    <?php
+} ?>
+
+<?php if (isset($_GET['source'])) {
+    ?>
+    <a href="<?php echo base_url() . $_GET['source']; ?>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i>&nbsp;
+    <?php echo lang('extra_view_button_back_list');
+    ?></a>
+    <?php
+}
+else {
+    ?>
+    <a href="<?php echo base_url();?>extra" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i>&nbsp;
+    <?php echo lang('extra_view_button_back_list');
+    ?></a>
+    <?php
+} ?>

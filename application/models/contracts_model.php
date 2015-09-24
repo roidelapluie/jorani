@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * This file is part of Jorani.
  *
  * Jorani is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -24,7 +24,7 @@ class Contracts_model extends CI_Model {
      * Default constructor
      */
     public function __construct() {
-        
+
     }
 
     /**
@@ -41,7 +41,7 @@ class Contracts_model extends CI_Model {
         $query = $this->db->get_where('contracts', array('id' => $id));
         return $query->row_array();
     }
-    
+
     /**
      * Get the label for a given contract id
      * @param int $id Unique identifier of a contract
@@ -55,7 +55,7 @@ class Contracts_model extends CI_Model {
             return '';
         }
     }
-    
+
     /**
      * Insert a new contract into the database. Inserted data are coming from an
      * HTML form
@@ -64,17 +64,17 @@ class Contracts_model extends CI_Model {
      */
     public function set_contracts() {
         $startentdate = str_pad($this->input->post('startentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
+                        "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
         $endentdate = str_pad($this->input->post('endentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
+                      "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
         $data = array(
-            'name' => $this->input->post('name'),
-            'startentdate' => $startentdate,
-            'endentdate' => $endentdate
-        );
+                    'name' => $this->input->post('name'),
+                    'startentdate' => $startentdate,
+                    'endentdate' => $endentdate
+                );
         return $this->db->insert('contracts', $data);
     }
-    
+
     /**
      * Delete a contract from the database
      * @param int $id identifier of the contract
@@ -89,7 +89,7 @@ class Contracts_model extends CI_Model {
         $this->dayoffs_model->delete_dayoffs_cascade_contract($id);
         $this->users_model->update_users_cascade_contract($id);
     }
-    
+
     /**
      * Update a given contract in the database. Update data are coming from an
      * HTML form
@@ -98,24 +98,24 @@ class Contracts_model extends CI_Model {
      */
     public function update_contract() {
         $startentdate = str_pad($this->input->post('startentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
+                        "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
         $endentdate = str_pad($this->input->post('endentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
+                      "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
         $data = array(
-            'name' => $this->input->post('name'),
-            'startentdate' => $startentdate,
-            'endentdate' => $endentdate
-        );
+                    'name' => $this->input->post('name'),
+                    'startentdate' => $startentdate,
+                    'endentdate' => $endentdate
+                );
         $this->db->where('id', $this->input->post('id'));
         return $this->db->update('contracts', $data);
     }
-    
+
     /**
      * Computes the boundaries (current leave period) of the contract of a user
      * Modifies the start and end dates passed as parameter
      * @param int Unique identifier of a user
-     * @param &date start date of the current leave period 
-     * @param &date end date of the current leave period 
+     * @param &date start date of the current leave period
+     * @param &date end date of the current leave period
      * @param string $refDate tmp of the Date of reference (or current date if NULL)
      * @return bool TRUE means that the user has a contract, FALSE otherwise
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -126,7 +126,7 @@ class Contracts_model extends CI_Model {
         $this->db->join('users', 'users.contract = contracts.id');
         $this->db->where('users.id', $userId);
         $boundaries = $this->db->get()->result_array();
-        
+
         if ($refDate == NULL) {
             $refDate = date("Y-m-d");
         }
@@ -134,7 +134,7 @@ class Contracts_model extends CI_Model {
         $refMonth = substr($refDate, 5, 2);
         $nextYear = strval(intval($refYear) + 1);
         $lastYear = strval(intval($refYear) - 1);
-        
+
         if (count($boundaries) != 0) {
             $startmonth = intval(substr($boundaries[0]['startentdate'], 0, 2));
             if ($startmonth == 1 ) {

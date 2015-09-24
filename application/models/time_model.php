@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * This file is part of Jorani.
  *
  * Jorani is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -24,7 +24,7 @@ class Time_model extends CI_Model {
      * Default constructor
      */
     public function __construct() {
-        
+
     }
 
     /**
@@ -41,7 +41,7 @@ class Time_model extends CI_Model {
         $query = $this->db->get_where('activities', array('id' => $id));
         return $query->row_array();
     }
-    
+
     /**
      * Get the label for a given contract id
      * @param type $id
@@ -55,7 +55,7 @@ class Time_model extends CI_Model {
             return '';
         }
     }
-    
+
     /**
      * Insert a new activity into the database. Inserted data are coming from an
      * HTML form
@@ -64,17 +64,17 @@ class Time_model extends CI_Model {
      */
     public function set_activities() {
         $startentdate = str_pad($this->input->post('startentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
+                        "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
         $endentdate = str_pad($this->input->post('endentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
+                      "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
         $data = array(
-            'name' => $this->input->post('name'),
-            'startentdate' => $startentdate,
-            'endentdate' => $endentdate
-        );
+                    'name' => $this->input->post('name'),
+                    'startentdate' => $startentdate,
+                    'endentdate' => $endentdate
+                );
         return $this->db->insert('activities', $data);
     }
-    
+
     /**
      * Delete a activity from the database
      * @param int $id identifier of the contract
@@ -85,7 +85,7 @@ class Time_model extends CI_Model {
         $this->load->model('entitleddays_model');
         $this->entitleddays_model->delete_entitleddays_cascade_contract($id);
     }
-    
+
     /**
      * Update a given activity in the database. Update data are coming from an
      * HTML form
@@ -93,16 +93,16 @@ class Time_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function update_activity() {
-        
+
         $startentdate = str_pad($this->input->post('startentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
+                        "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
         $endentdate = str_pad($this->input->post('endentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
+                      "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
         $data = array(
-            'name' => $this->input->post('name'),
-            'startentdate' => $startentdate,
-            'endentdate' => $endentdate
-        );
+                    'name' => $this->input->post('name'),
+                    'startentdate' => $startentdate,
+                    'endentdate' => $endentdate
+                );
 
         $this->db->where('id', $this->input->post('id'));
         return $this->db->update('activities', $data);
@@ -110,7 +110,7 @@ class Time_model extends CI_Model {
 
     /**
      * Purge the table by deleting the records prior $toDate
-     * @param date $toDate 
+     * @param date $toDate
      * @return int number of affected rows
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */

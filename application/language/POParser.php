@@ -76,20 +76,20 @@ class POParser
 //                'msgid'     => '',
 //                'msgstr'    => array('')
 //            )
-        );
+                   );
 
         // parsing headers; stop at the first empty line
         $headers = array(
-            'Project-Id-Version'            => '',
-            'Report-Msgid-Bugs-To'          => '',
-            'POT-Creation-Date'             => '',
-            'PO-Revision-Date'              => '',
-            'Last-Translator'               => '',
-            'Language-Team'                 => '',
-            'Content-Type'                  => '',
-            'Content-Transfer-Encoding'     => '',
-            'Plural-Forms'                  => '',
-        );
+                       'Project-Id-Version'            => '',
+                       'Report-Msgid-Bugs-To'          => '',
+                       'POT-Creation-Date'             => '',
+                       'PO-Revision-Date'              => '',
+                       'Last-Translator'               => '',
+                       'Language-Team'                 => '',
+                       'Content-Type'                  => '',
+                       'Content-Transfer-Encoding'     => '',
+                       'Plural-Forms'                  => '',
+                   );
         $i = 2;
         while ($line = $lines[$i++]) {
             $line = $this->_dequote($line);
@@ -116,54 +116,54 @@ class POParser
             if ($line[0] == '#') {
                 $comment = substr($line, 3);
                 switch ($line[1]) {
-                    // translator comments
-                    case ' ': {
-                        if (!isset($entry['translator-comments'])) {
-                            $entry['translator-comments'] = $comment;
-                        }
-                        else {
-                            $entry['translator-comments'] .= "\n" . $comment;
-                        }
-                        break;
+                // translator comments
+                case ' ': {
+                    if (!isset($entry['translator-comments'])) {
+                        $entry['translator-comments'] = $comment;
                     }
-                    // extracted comments
-                    case '.': {
-                        if (!isset($entry['extracted-comments'])) {
-                            $entry['extracted-comments'] = $comment;
-                        }
-                        else {
-                            $entry['extracted-comments'] .= "\n" . $comment;
-                        }
-                        break;
+                    else {
+                        $entry['translator-comments'] .= "\n" . $comment;
                     }
-                    // reference
-                    case ':': {
-                        if (!isset($entry['references'])) {
-                            $entry['references'] = array();
-                        }
-                        $entry['references'][] = $comment;
-                        break;
+                    break;
+                }
+                // extracted comments
+                case '.': {
+                    if (!isset($entry['extracted-comments'])) {
+                        $entry['extracted-comments'] = $comment;
                     }
-                    // flag
-                    case ',': {
-                        if (!isset($entry['flags'])) {
-                            $entry['flags'] = array();
-                        }
-                        $entry['flags'][] = $comment;
-                        break;
+                    else {
+                        $entry['extracted-comments'] .= "\n" . $comment;
                     }
-                    // previous msgid, msgctxt
-                    case '|': {
-                        // msgi[d]
-                        if ($comment[4] == 'd') {
-                            $entry['previous-msgid'] = $this->_dequote(substr($comment, 6));
-                        }
-                        // msgc[t]xt
-                        else {
-                            $entry['previous-msgctxt'] = $this->_dequote(substr($comment, 8));
-                        }
-                        break;
+                    break;
+                }
+                // reference
+                case ':': {
+                    if (!isset($entry['references'])) {
+                        $entry['references'] = array();
                     }
+                    $entry['references'][] = $comment;
+                    break;
+                }
+                // flag
+                case ',': {
+                    if (!isset($entry['flags'])) {
+                        $entry['flags'] = array();
+                    }
+                    $entry['flags'][] = $comment;
+                    break;
+                }
+                // previous msgid, msgctxt
+                case '|': {
+                    // msgi[d]
+                    if ($comment[4] == 'd') {
+                        $entry['previous-msgid'] = $this->_dequote(substr($comment, 6));
+                    }
+                    // msgc[t]xt
+                    else {
+                        $entry['previous-msgctxt'] = $this->_dequote(substr($comment, 8));
+                    }
+                    break;
+                }
                 }
             }
             else if (strpos($line, 'msgid') === 0) {

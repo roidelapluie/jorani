@@ -93,7 +93,7 @@ $lang['users_edit_flash_msg_success'] = 'ព័ត៌មានអ្នកប្
 $lang['users_delete_flash_msg_success'] = 'ព័ត៌មានអ្នកប្រើត្រូូវបានលុបបានសម្រេច';
 
 $lang['users_reset_flash_msg_success'] = 'លេខសំងាត់ប្ដូរបានសម្រេច';
-	
+
 $lang['users_create_title'] = 'បង្កើតឈ្មោះថ្មី';
 $lang['users_create_field_firstname'] = 'នាមត្រកូលអ្នកប្រើប្រាស់';
 $lang['users_create_field_lastname'] = 'ឈ្មោះអ្នកប្រើប្រាស់';

@@ -16,16 +16,16 @@
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-    //You can change the content of this template
+//You can change the content of this template
 ?>
 <html lang="nl">
-    <head>
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta charset="UTF-8">
-    </head>
-    <body>
-        <h3>{Title}</h3>
-        <p>Beste {Firstname} {Lastname},</p>
-        <p>Als u deze handeling niet zelf heeft uitgevoerd, neem dan contact op met uw beheerder.</p>
-    </body>
+           <head>
+           <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+                         <meta charset="UTF-8">
+                                       </head>
+                                       <body>
+                                       <h3> {Title}</h3>
+<p>Beste {Firstname} {Lastname},</p>
+<p>Als u deze handeling niet zelf heeft uitgevoerd, neem dan contact op met uw beheerder.</p>
+</body>
 </html>

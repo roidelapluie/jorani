@@ -18,7 +18,7 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
@@ -84,7 +84,7 @@ class Session extends CI_Controller {
             //Set language
             $this->session->set_userdata('language_code', $this->input->post('language'));
             $this->session->set_userdata('language', $this->polyglot->code2language($this->input->post('language')));
-            
+
             //Decipher the password value (RSA encoded -> base64 -> decode -> decrypt) and remove the salt!
             require_once(APPPATH . 'third_party/phpseclib/vendor/autoload.php');
             $rsa = new phpseclib\Crypt\RSA();
@@ -95,29 +95,31 @@ class Session extends CI_Controller {
             //Remove the salt
             $len_salt = strlen($this->session->userdata('salt')) * (-1);
             $password = substr($password, 0, $len_salt);
-            
+
             $loggedin = FALSE;
             if ($this->config->item('ldap_enabled')) {
                 if ($password != "") { //Bind to MS-AD with blank password might return OK
-                $ldap = ldap_connect($this->config->item('ldap_host'), $this->config->item('ldap_port'));
-                ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-                set_error_handler(function() { /* ignore errors */ });
-                if ($this->config->item('ldap_basedn_db')) {
-                    $basedn = $this->users_model->get_basedn($this->input->post('login'));
-                } else {
-                    $basedn = sprintf($this->config->item('ldap_basedn'), $this->input->post('login'));
-                }
-                $bind = ldap_bind($ldap, $basedn, $password);
-                restore_error_handler();
-                if ($bind) {
-                    $loggedin = $this->users_model->load_profile($this->input->post('login'));
-                }
-                ldap_close($ldap);
+                    $ldap = ldap_connect($this->config->item('ldap_host'), $this->config->item('ldap_port'));
+                    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+                    set_error_handler(function() {
+                        /* ignore errors */
+                    });
+                    if ($this->config->item('ldap_basedn_db')) {
+                        $basedn = $this->users_model->get_basedn($this->input->post('login'));
+                    } else {
+                        $basedn = sprintf($this->config->item('ldap_basedn'), $this->input->post('login'));
+                    }
+                    $bind = ldap_bind($ldap, $basedn, $password);
+                    restore_error_handler();
+                    if ($bind) {
+                        $loggedin = $this->users_model->load_profile($this->input->post('login'));
+                    }
+                    ldap_close($ldap);
                 }
             } else {
                 $loggedin = $this->users_model->check_credentials($this->input->post('login'), $password);
             }
-            
+
             if ($loggedin == FALSE) {
                 log_message('error', '{controllers/session/login} Invalid login id or password for user=' . $this->input->post('login'));
                 $this->session->set_flashdata('msg', lang('session_login_flash_bad_credentials'));
@@ -164,7 +166,7 @@ class Session extends CI_Controller {
         $this->session->set_userdata('language', $this->polyglot->code2language($this->input->post('language')));
         redirect($this->input->post('last_page'));
     }
-    
+
     /**
      * Send the password by e-mail to a user requesting it
      */
@@ -179,39 +181,39 @@ class Session extends CI_Controller {
         } else {
             //Send an email to the user with its login information
             $this->load->library('email');
-            
+
             //We need to instance an different object as the languages of connected user may differ from the UI lang
             $lang_mail = new CI_Lang();
             $usr_lang = $this->polyglot->code2language($user->language);
             $lang_mail->load('email', $usr_lang);
             $lang_mail->load('global', $usr_lang);
-            
+
             //Generate random password and store its hash into db
             $password = $this->users_model->resetClearPassword($user->id);
-            
+
             //Send an e-mail to the user requesting a new password
             $this->load->library('parser');
             $data = array(
-                'Title' => $lang_mail->line('email_password_forgotten_title'),
-                'BaseURL' => base_url(),
-                'Firstname' => $user->firstname,
-                'Lastname' => $user->lastname,
-                'Login' => $user->login,
-                'Password' => $password
-            );
+                        'Title' => $lang_mail->line('email_password_forgotten_title'),
+                        'BaseURL' => base_url(),
+                        'Firstname' => $user->firstname,
+                        'Lastname' => $user->lastname,
+                        'Login' => $user->login,
+                        'Password' => $password
+                    );
             $message = $this->parser->parse('emails/' . $user->language . '/password_forgotten', $data, TRUE);
             $this->email->set_encoding('quoted-printable');
 
             if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
                 $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
             } else {
-               $this->email->from('do.not@reply.me', 'LMS');
+                $this->email->from('do.not@reply.me', 'LMS');
             }
             $this->email->to($user->email);
             if ($this->config->item('subject_prefix') != FALSE) {
                 $subject = $this->config->item('subject_prefix');
             } else {
-               $subject = '[Jorani] ';
+                $subject = '[Jorani] ';
             }
             $this->email->subject($subject . $lang_mail->line('email_password_forgotten_subject'));
             $this->email->message($message);

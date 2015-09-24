@@ -2,8 +2,11 @@
 
 <p>Usted no está autorizado para realizar esta acción.</p>
 
-<?php if($this->session->flashdata('msg')){ ?>
-<p>  
-  <?php echo $this->session->flashdata('msg'); ?>
-</p>
-<?php } ?>
+<?php if($this->session->flashdata('msg')) {
+    ?>
+    <p>
+    <?php echo $this->session->flashdata('msg');
+    ?>
+    </p>
+    <?php
+} ?>

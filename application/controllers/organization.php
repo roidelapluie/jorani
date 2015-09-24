@@ -18,12 +18,12 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 class Organization extends CI_Controller {
-    
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -96,7 +96,7 @@ class Organization extends CI_Controller {
             $this->organization_model->rename($id, $text);
         }
     }
-    
+
     /**
      * Ajax endpoint: Create an entity in the organization
      * takes parameters by GET
@@ -114,7 +114,7 @@ class Organization extends CI_Controller {
             $this->organization_model->create($id, $text);
         }
     }
-    
+
     /**
      * Ajax endpoint: Move an entity into the organization
      * takes parameters by GET
@@ -132,7 +132,7 @@ class Organization extends CI_Controller {
             $this->organization_model->move($id, $parent);
         }
     }
-    
+
     /**
      * Ajax endpoint: Copy an entity into the organization
      * takes parameters by GET
@@ -177,7 +177,7 @@ class Organization extends CI_Controller {
         $msg .= ']}';
         echo $msg;
     }
-    
+
     /**
      * Ajax endpoint: Add an employee to an entity of the organization
      * takes parameters by GET
@@ -194,8 +194,8 @@ class Organization extends CI_Controller {
             $this->load->model('organization_model');
             echo json_encode($this->organization_model->add_employee($id, $entity));
         }
-    }   
-    
+    }
+
     /**
      * Ajax endpoint: Add an employee to an entity of the organization
      * takes parameters by GET
@@ -211,8 +211,8 @@ class Organization extends CI_Controller {
             $this->load->model('organization_model');
             echo json_encode($this->organization_model->delete_employee($id));
         }
-    } 
-    
+    }
+
     /**
      * Ajax endpoint: Cascade delete children and set employees' org to NULL
      * takes parameters by GET
@@ -229,7 +229,7 @@ class Organization extends CI_Controller {
             echo json_encode($this->organization_model->delete($entity));
         }
     }
-    
+
     /**
      * Ajax endpoint: Returns a JSON string describing the organization structure.
      * In a format expected by jsTree component.
@@ -245,7 +245,7 @@ class Organization extends CI_Controller {
             $this->auth->check_is_granted('organization_select');
             $data = getUserContext($this);
         }
-        
+
         $id = $this->input->get('id', TRUE);
         if ($id == "#") {
             unset($id);
@@ -267,9 +267,9 @@ class Organization extends CI_Controller {
         $msg .= ']';
         echo $msg;
     }
-    
+
     /**
-     * Ajax endpoint:Returns the supervisor of an entity of the organization 
+     * Ajax endpoint:Returns the supervisor of an entity of the organization
      * (string containing an id)
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */

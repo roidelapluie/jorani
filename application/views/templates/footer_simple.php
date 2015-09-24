@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of Jorani.
  *
@@ -14,11 +14,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 ?>
-        <div id="push"></div>
-    </div><!-- /.container -->
-</body>
-</html>
+<div id="push"></div>
+        </div><!-- /.container -->
+        </body>
+        </html>

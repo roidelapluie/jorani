@@ -72,8 +72,8 @@ class Bcrypt {
     private function initialize($params = array()) {
         if (count($params) > 0) {
             foreach ($params as $key => $value) {
-                if (isset($this->{'_' . $key})) {
-                    $this->{'_' . $key} = $value;
+                if (isset($this-> {'_' . $key})) {
+                    $this-> {'_' . $key} = $value;
                 }
             }
         }
@@ -92,7 +92,7 @@ class Bcrypt {
             for ($i = 0; $i < $count; $i += 16) {
                 $this->_random_state = md5(microtime() . $this->_random_state);
                 $output .=
-                        pack('H*', md5($this->_random_state));
+                    pack('H*', md5($this->_random_state));
             }
             $output = substr($output, 0, $count);
         }
@@ -125,7 +125,7 @@ class Bcrypt {
     protected function gensalt_private($input) {
         $output = '$P$';
         $output .= $this->_itoa64[min($this->_iteration_count +
-                        ((PHP_VERSION >= '5') ? 5 : 3), 30)];
+                                      ((PHP_VERSION >= '5') ? 5 : 3), 30)];
         $output .= $this->encode64($input, 6);
 
         return $output;
@@ -137,7 +137,7 @@ class Bcrypt {
             $output = '*1';
 
         $id = substr($setting, 0, 3);
-        # We use "$P$", phpBB3 uses "$H$" for the same thing
+# We use "$P$", phpBB3 uses "$H$" for the same thing
         if ($id != '$P$' && $id != '$H$')
             return $output;
 
@@ -151,12 +151,12 @@ class Bcrypt {
         if (strlen($salt) != 8)
             return $output;
 
-        # We're kind of forced to use MD5 here since it's the only
-        # cryptographic primitive available in all versions of PHP
-        # currently in use.  To implement our own low-level crypto
-        # in PHP would result in much worse performance and
-        # consequently in lower iteration counts and hashes that are
-        # quicker to crack (by non-PHP code).
+# We're kind of forced to use MD5 here since it's the only
+# cryptographic primitive available in all versions of PHP
+# currently in use.  To implement our own low-level crypto
+# in PHP would result in much worse performance and
+# consequently in lower iteration counts and hashes that are
+# quicker to crack (by non-PHP code).
         if (PHP_VERSION >= '5') {
             $hash = md5($salt . $password, TRUE);
             do {
@@ -177,8 +177,8 @@ class Bcrypt {
 
     protected function gensalt_extended($input) {
         $count_log2 = min($this->_iteration_count + 8, 24);
-        # This should be odd to not reveal weak DES keys, and the
-        # maximum valid value is (2**24 - 1) which is odd anyway.
+# This should be odd to not reveal weak DES keys, and the
+# maximum valid value is (2**24 - 1) which is odd anyway.
         $count = (1 << $count_log2) - 1;
 
         $output = '_';
@@ -193,14 +193,14 @@ class Bcrypt {
     }
 
     protected function gensalt_blowfish($input) {
-        # This one needs to use a different order of characters and a
-        # different encoding scheme from the one in encode64() above.
-        # We care because the last character in our encoded string will
-        # only represent 2 bits.  While two known implementations of
-        # bcrypt will happily accept and correct a salt string which
-        # has the 4 unused bits set to non-zero, we do not want to take
-        # chances and we also do not want to waste an additional byte
-        # of entropy.
+# This one needs to use a different order of characters and a
+# different encoding scheme from the one in encode64() above.
+# We care because the last character in our encoded string will
+# only represent 2 bits.  While two known implementations of
+# bcrypt will happily accept and correct a salt string which
+# has the 4 unused bits set to non-zero, we do not want to take
+# chances and we also do not want to waste an additional byte
+# of entropy.
         $itoa64 = './ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
         $output = '$2a$';
@@ -256,9 +256,9 @@ class Bcrypt {
         if (strlen($hash) == 34)
             return $hash;
 
-        # Returning '*' on error is safe here, but would _not_ be safe
-        # in a crypt(3)-like function used _both_ for generating new
-        # hashes and for validating passwords against existing hashes.
+# Returning '*' on error is safe here, but would _not_ be safe
+# in a crypt(3)-like function used _both_ for generating new
+# hashes and for validating passwords against existing hashes.
         return '*';
     }
 

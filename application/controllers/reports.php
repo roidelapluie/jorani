@@ -18,12 +18,12 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 class Reports extends CI_Controller {
-    
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -42,23 +42,23 @@ class Reports extends CI_Controller {
     public function index() {
         $this->auth->check_is_granted('report_list');
         $data = getUserContext($this);
-        
+
         $reports = array();
         $files = glob(FCPATH . '/local/reports/*', GLOB_ONLYDIR);
         foreach($files as $file) {
             $ini_array = parse_ini_file($file . '/report.ini', true);
             $reports[$ini_array[$this->language_code]['name']] = array(
-                basename($file),
-                $ini_array[$this->language_code]['description']
-                );
+                        basename($file),
+                        $ini_array[$this->language_code]['description']
+                    );
         }
-        
+
         $data['title'] = lang('reports_index_title');
         $data['reports'] = $reports;
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('reports/index', $data);
-        $this->load->view('templates/footer'); 
+        $this->load->view('templates/footer');
     }
 
     /**
@@ -78,7 +78,7 @@ class Reports extends CI_Controller {
         $this->load->view('reports/execute', $data);
         $this->load->view('templates/footer');
     }
-    
+
     /**
      * Execute the shipped-in balance report
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -86,7 +86,7 @@ class Reports extends CI_Controller {
     public function balance($refTmp = NULL) {
         $this->auth->check_is_granted('native_report_balance');
         $data = getUserContext($this);
-		$refDate = date("Y-m-d");
+        $refDate = date("Y-m-d");
         if ($refTmp != NULL) {
             $refDate = date("Y-m-d", $refTmp);
         }
@@ -98,7 +98,7 @@ class Reports extends CI_Controller {
         $this->load->view('reports/balance/index', $data);
         $this->load->view('templates/footer');
     }
-    
+
     /**
      * Ajax end-point : execute the balance report
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -106,14 +106,14 @@ class Reports extends CI_Controller {
     public function balance_execute() {
         $this->auth->check_is_granted('native_report_balance');
         $data = getUserContext($this);
-        
+
         $this->load->model('leaves_model');
         $this->load->model('types_model');
         $this->load->model('organization_model');
         $result = array();
         $types = $this->types_model->get_types();
         $this->lang->load('global', $this->language);
-		
+
         $refDate = date("Y-m-d");
         if (isset($_GET['refDate']) && $_GET['refDate'] != NULL) {
             $refDate = date("Y-m-d", $_GET['refDate']);
@@ -133,7 +133,7 @@ class Reports extends CI_Controller {
             foreach ($types as $type) {
                 $result[$user->id][$type['name']] = '';
             }
-            
+
             $summary = $this->leaves_model->get_user_leaves_summary($user->id, TRUE, $refDate);
             if (count($summary) > 0 ) {
                 foreach ($summary as $key => $value) {
@@ -141,7 +141,7 @@ class Reports extends CI_Controller {
                 }
             }
         }
-        
+
         $table = '';
         $thead = '';
         $tbody = '';
@@ -165,19 +165,19 @@ class Reports extends CI_Controller {
             $line++;
         }
         $table = '<table class="table table-bordered table-hover">' .
-                    '<thead>' .
-                        '<tr>' .
-                            $thead .
-                        '</tr>' .
-                    '</thead>' .
-                    '<tbody>' .
-                        $tbody .
-                    '</tbody>' .
-                '</table>';
-        
+                 '<thead>' .
+                 '<tr>' .
+                 $thead .
+                 '</tr>' .
+                 '</thead>' .
+                 '<tbody>' .
+                 $tbody .
+                 '</tbody>' .
+                 '</table>';
+
         echo $table;
     }
-    
+
     /**
      * Export the balance report into Excel
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -196,7 +196,7 @@ class Reports extends CI_Controller {
         $result = array();
         $summary = array();
         $types = $this->types_model->get_types();
-        
+
         $refDate = date("Y-m-d");
         if (isset($_GET['refDate']) && $_GET['refDate'] != NULL) {
             $refDate = date("Y-m-d", $_GET['refDate']);
@@ -215,7 +215,7 @@ class Reports extends CI_Controller {
             foreach ($types as $type) {
                 $result[$user->id][$type['name']] = '';
             }
-            
+
             $summary = $this->leaves_model->get_user_leaves_summary($user->id, TRUE, $refDate);
             if (count($summary) > 0 ) {
                 foreach ($summary as $key => $value) {
@@ -223,7 +223,7 @@ class Reports extends CI_Controller {
                 }
             }
         }
-        
+
         $max = 0;
         $line = 2;
         $i18n = array("identifier", "firstname", "lastname", "datehired", "department", "position", "contract");
@@ -249,13 +249,13 @@ class Reports extends CI_Controller {
         $colidx = $this->excel->column_name($max) . '1';
         $sheet->getStyle('A1:' . $colidx)->getFont()->setBold(true);
         $sheet->getStyle('A1:' . $colidx)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        
+
         //Autofit
         for ($ii=1; $ii <$max; $ii++) {
             $col = $this->excel->column_name($ii);
             $sheet->getColumnDimension($col)->setAutoSize(TRUE);
         }
-        
+
         $filename = 'leave_balance.xls';
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . $filename . '"');

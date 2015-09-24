@@ -18,14 +18,14 @@ if (!defined('BASEPATH')) {
  *
  * You should have received a copy of the GNU General Public License
  * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @copyright  Copyright (c) 2014 - 2015 Benjamin BALET
  */
 
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Overtime extends CI_Controller {
-    
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -51,7 +51,7 @@ class Overtime extends CI_Controller {
         } else {
             $showAll = false;
         }
-        
+
         $data = getUserContext($this);
         $this->lang->load('datatable', $this->language);
         $data['filter'] = $filter;
@@ -129,10 +129,10 @@ class Overtime extends CI_Controller {
             redirect('leaves');
         }
     }
-    
+
     /**
      * Send a overtime request email to the employee that requested the leave
-     * The method will check if the leave request wes accepted or rejected 
+     * The method will check if the leave request wes accepted or rejected
      * before sending the e-mail
      * @param int $id Leave request identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -150,30 +150,30 @@ class Overtime extends CI_Controller {
         $this->load->library('email');
         $this->load->library('polyglot');
         $usr_lang = $this->polyglot->code2language($employee['language']);
-        
+
         //We need to instance an different object as the languages of connected user may differ from the UI lang
         $lang_mail = new CI_Lang();
         $lang_mail->load('email', $usr_lang);
         $lang_mail->load('global', $usr_lang);
-        
+
         $date = new DateTime($extra['startdate']);
         $startdate = $date->format($lang_mail->line('global_date_format'));
 
         $this->load->library('parser');
         $data = array(
-            'Title' => $lang_mail->line('email_overtime_request_validation_title'),
-            'Firstname' => $employee['firstname'],
-            'Lastname' => $employee['lastname'],
-            'Date' => $startdate,
-            'Duration' => $extra['duration'],
-            'Cause' => $extra['cause']
-        );
-        
+                    'Title' => $lang_mail->line('email_overtime_request_validation_title'),
+                    'Firstname' => $employee['firstname'],
+                    'Lastname' => $employee['lastname'],
+                    'Date' => $startdate,
+                    'Duration' => $extra['duration'],
+                    'Cause' => $extra['cause']
+                );
+
         $message = "";
         if ($this->config->item('subject_prefix') != FALSE) {
             $subject = $this->config->item('subject_prefix');
         } else {
-           $subject = '[Jorani] ';
+            $subject = '[Jorani] ';
         }
         if ($extra['status'] == 3) {
             $message = $this->parser->parse('emails/' . $employee['language'] . '/overtime_accepted', $data, TRUE);
@@ -183,11 +183,11 @@ class Overtime extends CI_Controller {
             $this->email->subject($subject . $lang_mail->line('email_overtime_request_reject_subject'));
         }
         $this->email->set_encoding('quoted-printable');
-        
+
         if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
             $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
         } else {
-           $this->email->from('do.not@reply.me', 'LMS');
+            $this->email->from('do.not@reply.me', 'LMS');
         }
         $this->email->to($employee['email']);
         if (!is_null($supervisor)) {
@@ -196,7 +196,7 @@ class Overtime extends CI_Controller {
         $this->email->message($message);
         $this->email->send();
     }
-    
+
     /**
      * Action: export the list of all overtime requests into an Excel file
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -221,7 +221,7 @@ class Overtime extends CI_Controller {
         }
         $requests = $this->overtime_model->requests($this->user_id, $showAll);
         $this->load->model('status_model');
-        
+
         $line = 2;
         foreach ($requests as $request) {
             $date = new DateTime($request['date']);
@@ -234,7 +234,7 @@ class Overtime extends CI_Controller {
             $sheet->setCellValue('F' . $line, lang($this->status_model->get_label($request['status'])));
             $line++;
         }
-        
+
         //Autofit
         foreach(range('A', 'F') as $colD) {
             $sheet->getColumnDimension($colD)->setAutoSize(TRUE);
